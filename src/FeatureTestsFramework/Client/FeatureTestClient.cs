@@ -28,7 +28,8 @@ namespace FeatureTestsFramework.Client
             {
                 using var responseReader = new StreamReader(responseStream);
                 var responseContent = await responseReader.ReadToEndAsync();
-                var isJson = response.Headers.GetValues("Content-Type").Any(value => value.Contains("json"));
+                var containsContentType =  response.Headers.TryGetValues("Content-Type", out var values);
+                var isJson = containsContentType ? values.Any(value => value.Contains("json")) : false;
                 responseBody = isJson ? Format(responseContent) : responseContent;
 
                 return new FeatureTestResponse(featureTestRequest, response, responseBody);

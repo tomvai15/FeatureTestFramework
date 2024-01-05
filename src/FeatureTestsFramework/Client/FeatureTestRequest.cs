@@ -33,7 +33,7 @@ namespace FeatureTestsFramework.Client
             {
                 const char slash = '/';
                 var uri = EndpointRelativeUri.ToString().TrimStart(slash);
-                var subUri = SubUri.TrimStart(slash);
+                var subUri = SubUri.TrimStart(slash).TrimEnd(slash);
                 request.RequestUri = new Uri($"{slash}{subUri}{slash}{uri}", UriKind.Relative);
             }
 

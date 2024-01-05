@@ -30,9 +30,9 @@ namespace FeatureTestsFramework.Steps
         private readonly IPlaceholderReplacer<IRequestPlaceholderEvaluator> requestPlaceholderReplacer;
         private readonly IPlaceholderReplacer<IUriPlaceholderEvaluator> uriPlaceholderReplacer;
 
-        public HttpRequestSteps()
+        public HttpRequestSteps(ScenarioContext scenarioContext)
         {
-            this.context = ScenarioContext;
+            this.context = scenarioContext;
             featureTestClient = context.GetService<IFeatureTestClient>();
             requestBuilder = context.GetRequiredService<IFeatureTestRequestBuilder>();
             requestsStore = context.GetRequiredService<IRequestStore>();
@@ -41,7 +41,7 @@ namespace FeatureTestsFramework.Steps
             uriPlaceholderReplacer = context.GetRequiredService<IPlaceholderReplacer<IUriPlaceholderEvaluator>>();
         }
 
-        [Given(@"I have an HTTP "" ([^""]*) """" ([^""]*)"" request with body")]
+        [Given(@"I have an HTTP ""([^""]*)"" ""([^""]*)"" request with body")]
         public void GivenIHaveAnHttpRequestWithBody(string httpMethod, string url, string requestBody)
         {
             GivenIHaveAnHttpRequest(httpMethod, url);
@@ -60,7 +60,7 @@ namespace FeatureTestsFramework.Steps
             requestsStore.AddRequest(request);
         }
 
-        [Then(@"the response body should match ' ([^]*) '")]
+        [Then(@"the response body should match '([^']*)'")]
         [Then(@"the response body should match")]
         public void ThenTheResponseBodyShouldMatch(string expectedResponseBody)
         {
@@ -76,7 +76,7 @@ namespace FeatureTestsFramework.Steps
         }
 
 
-        [Then(@"the response body should match exact formatting ' ([^]*) '")]
+        [Then(@"the response body should match exact formatting '([^']*)'")]
         [Then(@"the response body should match exact formatting")]
         public void ThenTheResponseBodyShouldMatchExactFormatting(string expectedResponseBody)
         {
@@ -85,7 +85,7 @@ namespace FeatureTestsFramework.Steps
             response.ResponseBody.ShouldMatchRegexLineByLine(expectedRegexedResponseBody);
         }
 
-        [Given(@"I have an HTTP "" ([^""]*) "", "" ([^""]*)"" request")]
+        [Given(@"I have an HTTP ""([^""]*)"" ""([^""]*)"" request")]
         private void GivenIHaveAnHttpRequest(string httpMethod, string url)
         {
             requestBuilder.SetMethod(new HttpMethod(httpMethod));
@@ -100,13 +100,13 @@ namespace FeatureTestsFramework.Steps
             response.HttpStatusCode.Should().Be((HttpStatusCode)statusCode, response.ResponseBody);
         }
 
-        [Given(@"I set API version to ""([^""]*) """)]
+        [Given(@"I set API version to ""([^""]*)""")]
         public void GivenISetAPIVersionTo(string version)
         {
             requestBuilder.SetUriApiVersion(version);
         }
 
-        [Given(@"I set sub Uri to "" ([^""]*) """)]
+        [Given(@"I set sub Uri to ""([^""]*)""")]
         public void GivenISetSubUriTo(string suburi)
         {
             requestBuilder.SetSubUri(uriPlaceholderReplacer.Replace(suburi, context));
@@ -124,7 +124,7 @@ namespace FeatureTestsFramework.Steps
             AssertHeaders(table, (responseHeaders, expectedHeader) => responseHeaders.Should().NotContain(expectedHeader));
         }
 
-        [Then(@"the response header "" ([^""]*)"" should be ""([^**) *) """)]
+        [Then(@"the response header ""([^""]*)"" should be ""([^""]*)""")]
         public void ThenTheHeaderShouldBe(string name, string value)
         {
             response.Should().NotBeNull();
@@ -145,26 +145,26 @@ namespace FeatureTestsFramework.Steps
             }
         }
 
-        [Given(@"I add a request header "" ([^""]) """)]
+        [Given(@"I add a request header ""([^""])""")]
         public void GivenIAddARequestHeader(string header)
         {
             requestBuilder.AddHeader(header, new StringValues("Can-be-anything"));
         }
 
-        [Given(@"I add a request header "" ([^""]*) "" with value ""([^""] *) """)]
+        [Given(@"I add a request header ""([^""]*)"" with value ""([^""]*)""")]
         public void WhenIAddHeaderWithValue(string name, string value)
         {
             requestBuilder.AddHeader(name, value);
         }
 
-        [Given(@"I add a query parameter "" ([^""]*) "" with value ""([^""]*) """)]
+        [Given(@"I add a query parameter "" ([^""]*)"" with value ""([^""]*) """)]
         public void GivenIAddQueryParameter(string parameterName, string value)
         {
             requestBuilder.AddQueryParameter(parameterName, value);
         }
 
         [Given(@"the header removed is (.*)")]
-        [Given(@"I remove header ""([^""]*) """)]
+        [Given(@"I remove header ""([^""]*)""")]
         public void GivenTheHeaderRemovedIs(string header)
         {
             requestBuilder.RemoveHeader(header);
