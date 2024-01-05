@@ -18,6 +18,7 @@ namespace FeatureTestsFramework.HttpRequest
         public IFeatureTestRequestBuilder AddQueryParameter(string parameterName, string value);
 
         public IFeatureTestRequestBuilder SetSubUri(string suburi);
+        public IFeatureTestRequestBuilder SetBody(string body);
 
         public FeatureTestRequest Build();
     }
@@ -35,6 +36,12 @@ namespace FeatureTestsFramework.HttpRequest
             }
 
             featureTestRequest.AdditionalHeaders.Add(header, value);
+            return this;
+        }
+
+        public IFeatureTestRequestBuilder SetBody(string body)
+        {
+            featureTestRequest.Body = body;
             return this;
         }
 

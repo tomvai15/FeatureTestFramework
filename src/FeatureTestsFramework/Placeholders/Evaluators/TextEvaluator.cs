@@ -14,7 +14,7 @@ namespace FeatureTestsFramework.Placeholders.Evaluators
         {
             foreach (var customEvaluator in customEvaluators)
             {
-                //     addEva
+                AddEvaluation(customEvaluator.Key, customEvaluator.Evaluate);
             }
         }
 

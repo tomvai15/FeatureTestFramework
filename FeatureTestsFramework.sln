@@ -3,11 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureTestsFramework", "src\FeatureTestsFramework\FeatureTestsFramework.csproj", "{7A33110C-2012-45A2-9862-1749016B26CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureTestsFramework", "src\FeatureTestsFramework\FeatureTestsFramework.csproj", "{7A33110C-2012-45A2-9862-1749016B26CF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4A042858-E588-414E-A74C-480343E0702B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{20BE9D20-D6E2-467F-9CBD-36134689A7EF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{DEC86EF3-58F5-44C4-AD49-1E47A41FB891}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Api", "Example.Api\Example.Api.csproj", "{82FCDF92-822D-4DE0-961C-BE1A162328C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureTestFramework.Tests", "tests\FeatureTestFramework.Tests\FeatureTestFramework.Tests.csproj", "{C8B9719A-B314-444F-B6D6-BD8269BD480F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,12 +25,22 @@ Global
 		{7A33110C-2012-45A2-9862-1749016B26CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A33110C-2012-45A2-9862-1749016B26CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A33110C-2012-45A2-9862-1749016B26CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82FCDF92-822D-4DE0-961C-BE1A162328C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82FCDF92-822D-4DE0-961C-BE1A162328C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82FCDF92-822D-4DE0-961C-BE1A162328C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82FCDF92-822D-4DE0-961C-BE1A162328C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8B9719A-B314-444F-B6D6-BD8269BD480F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B9719A-B314-444F-B6D6-BD8269BD480F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8B9719A-B314-444F-B6D6-BD8269BD480F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8B9719A-B314-444F-B6D6-BD8269BD480F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7A33110C-2012-45A2-9862-1749016B26CF} = {4A042858-E588-414E-A74C-480343E0702B}
+		{82FCDF92-822D-4DE0-961C-BE1A162328C5} = {DEC86EF3-58F5-44C4-AD49-1E47A41FB891}
+		{C8B9719A-B314-444F-B6D6-BD8269BD480F} = {20BE9D20-D6E2-467F-9CBD-36134689A7EF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0FFB0655-217A-4979-8022-4CFD3D756E11}

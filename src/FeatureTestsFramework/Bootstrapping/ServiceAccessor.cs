@@ -7,6 +7,7 @@ namespace FeatureTestsFramework.Bootstrapping
         public static readonly IServiceCollection ServiceCollection = new ServiceCollection();
         public static IServiceProvider ServiceProvider => lazyServiceProvider.Value;
 
-        private static Lazy<IServiceProvider> lazyServiceProvider = new(ServiceCollection.BuildServiceProvider, LazyThreadSafetyMode.ExecutionAndPublication);
+        private static Lazy<IServiceProvider> lazyServiceProvider = 
+            new(ServiceCollection.BuildServiceProvider, LazyThreadSafetyMode.ExecutionAndPublication);
     }
 }

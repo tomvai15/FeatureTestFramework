@@ -1,0 +1,13 @@
+﻿{
+  "bindingCulture": {
+    "name": "en-GB"
+  },
+  "language": {
+    "feature": "en-GB"
+  },
+  "stepAssemblies": [
+    {
+      "assembly": "FeatureTestsFramework"
+    }
+  ]
+}
