@@ -157,7 +157,7 @@ namespace FeatureTestsFramework.Steps
             requestBuilder.AddHeader(name, value);
         }
 
-        [Given(@"I add a query parameter "" ([^""]*)"" with value ""([^""]*) """)]
+        [Given(@"I add a query parameter ""([^""]*)"" with value ""([^""]*) """)]
         public void GivenIAddQueryParameter(string parameterName, string value)
         {
             requestBuilder.AddQueryParameter(parameterName, value);
@@ -168,6 +168,19 @@ namespace FeatureTestsFramework.Steps
         public void GivenTheHeaderRemovedIs(string header)
         {
             requestBuilder.RemoveHeader(header);
+        }
+
+
+        [Then(@"service ""([^""]*)"" should be called with HTTP ""([^""]*)"" ""([^""]*)""")]
+        public void ThenServiceShouldBeCalledWith(string service, string method, string url)
+        {
+           
+        }
+
+        [Then(@"service ""([^""]*)"" should be called with HTTP ""([^""]*)"" ""([^""]*)"" and body")]
+        public void ThenServiceShouldBeCalledWithBody(string service, string method, string url, string body)
+        {
+
         }
 
         private static IEnumerable<string> GetValuesOfColumn(Table table, string column)

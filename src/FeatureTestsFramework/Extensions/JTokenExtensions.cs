@@ -8,7 +8,7 @@ namespace FeatureTestsFramework.Extensions
         {
             var properties = new Dictionary<string, object?>();
             var token = jToken;
-            while (token.HasValues)
+            while (token != null && token.HasValues)
             {
                 FlattenJsonImpl(token, properties);
                 token = token.Next;

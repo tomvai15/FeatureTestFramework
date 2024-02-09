@@ -12,7 +12,7 @@ namespace FeatureTestsFramework.Placeholders.Replacers
         where TPlaceholderEvaluator : IPlaceholderEvaluator
     {
         private const string PlaceholderStart = "{{";
-        private const string PlaceholderEnd = "{{";
+        private const string PlaceholderEnd = "}}";
 
         private readonly TPlaceholderEvaluator _placeholderEvaluator;
 
@@ -49,7 +49,7 @@ namespace FeatureTestsFramework.Placeholders.Replacers
                 throw new Exception($"Placeholder {placeholder} was not found");
             }
 
-            var valueToReplace = PlaceholderStart + placeholderValue + PlaceholderEnd;
+            var valueToReplace = PlaceholderStart + placeholder + PlaceholderEnd;
             return json.Replace(valueToReplace, placeholderValue);
         }
     }
