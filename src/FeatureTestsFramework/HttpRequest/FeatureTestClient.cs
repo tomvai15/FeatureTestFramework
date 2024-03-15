@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
-namespace FeatureTestsFramework.Client
+namespace FeatureTestsFramework.HttpRequest
 {
     public class FeatureTestClient : IFeatureTestClient
     {
@@ -28,7 +28,7 @@ namespace FeatureTestsFramework.Client
             {
                 using var responseReader = new StreamReader(responseStream);
                 var responseContent = await responseReader.ReadToEndAsync();
-                var containsContentType =  response.Headers.TryGetValues("Content-Type", out var values);
+                var containsContentType = response.Headers.TryGetValues("Content-Type", out var values);
                 var isJson = containsContentType ? values.Any(value => value.Contains("json")) : false;
                 responseBody = isJson ? Format(responseContent) : responseContent;
 

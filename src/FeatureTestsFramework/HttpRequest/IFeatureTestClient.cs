@@ -1,4 +1,4 @@
-﻿namespace FeatureTestsFramework.Client
+﻿namespace FeatureTestsFramework.HttpRequest
 {
     public interface IFeatureTestClient
     {

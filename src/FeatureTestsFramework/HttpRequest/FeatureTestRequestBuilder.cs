@@ -1,5 +1,4 @@
-﻿using FeatureTestsFramework.Client;
-using Microsoft.Extensions.Primitives;
+﻿using Microsoft.Extensions.Primitives;
 
 namespace FeatureTestsFramework.HttpRequest
 {

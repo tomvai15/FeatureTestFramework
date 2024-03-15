@@ -1,5 +1,4 @@
-﻿using FeatureTestsFramework.Client;
-using FeatureTestsFramework.HttpRequest;
+﻿using FeatureTestsFramework.HttpRequest;
 using FeatureTestsFramework.Placeholders.Replacers;
 using FeatureTestsFramework.Placeholders.Request;
 using FeatureTestsFramework.Placeholders.Response;

@@ -1,5 +1,4 @@
-﻿using FeatureTestsFramework.Client;
-using FeatureTestsFramework.Placeholders.Replacers;
+﻿using FeatureTestsFramework.Placeholders.Replacers;
 using System.Net;
 using TechTalk.SpecFlow;
 using FeatureTestsFramework.Extensions;

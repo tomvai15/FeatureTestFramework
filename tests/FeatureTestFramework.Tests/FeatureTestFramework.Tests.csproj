@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <UpToDateCheckInput Remove="Features\Auth.feature" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.14" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
     <PackageReference Include="SpecFlow.xUnit" Version="3.9.74" />

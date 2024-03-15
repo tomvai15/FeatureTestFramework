@@ -1,4 +1,4 @@
-﻿using FeatureTestsFramework.Client;
+﻿using FeatureTestsFramework.HttpRequest;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -1,4 +1,4 @@
-﻿using FeatureTestsFramework.Client;
+﻿using FeatureTestsFramework.HttpRequest;
 using FeatureTestsFramework.Steps;
 using TechTalk.SpecFlow;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Primitives;
 using System.Text;
 
-namespace FeatureTestsFramework.Client
+namespace FeatureTestsFramework.HttpRequest
 {
     public class FeatureTestRequest
     {
@@ -19,7 +19,7 @@ namespace FeatureTestsFramework.Client
             request.Method = HttpMethod;
             request.RequestUri = EndpointRelativeUri;
 
-            foreach (var header in AdditionalHeaders) 
+            foreach (var header in AdditionalHeaders)
             {
                 request.Headers.Add(header.Key, header.Value.ToString().Split(";", StringSplitOptions.RemoveEmptyEntries));
             }
