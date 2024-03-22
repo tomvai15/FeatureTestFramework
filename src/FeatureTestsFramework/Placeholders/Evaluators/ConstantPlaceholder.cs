@@ -2,7 +2,7 @@
 
 namespace FeatureTestsFramework.Placeholders.Evaluators
 {
-    public class ConstantPlaceholder : ICustomPlaceholderEvaluator
+    public class ConstantPlaceholder : ICommonPlaceholderEvaluator
     {
         public string Key { get; }
 

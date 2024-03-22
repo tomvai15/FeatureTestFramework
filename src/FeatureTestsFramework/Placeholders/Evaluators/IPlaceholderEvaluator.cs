@@ -1,6 +1,6 @@
 ﻿using TechTalk.SpecFlow;
 
-namespace FeatureTestsFramework.Placeholders.Replacers
+namespace FeatureTestsFramework.Placeholders.Evaluators
 {
     public interface IPlaceholderEvaluator
     {

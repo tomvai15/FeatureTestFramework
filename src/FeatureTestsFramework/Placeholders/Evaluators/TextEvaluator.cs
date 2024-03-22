@@ -10,7 +10,7 @@ namespace FeatureTestsFramework.Placeholders.Evaluators
 
         protected virtual string EvaluatorName => this.GetType().Name;
 
-        protected TextEvaluator(IEnumerable<ICustomPlaceholderEvaluator> customEvaluators)
+        protected TextEvaluator(IEnumerable<ICommonPlaceholderEvaluator> customEvaluators)
         {
             foreach (var customEvaluator in customEvaluators)
             {

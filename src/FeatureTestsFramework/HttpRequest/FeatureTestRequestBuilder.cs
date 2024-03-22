@@ -5,20 +5,13 @@ namespace FeatureTestsFramework.HttpRequest
     public interface IFeatureTestRequestBuilder
     {
         public IFeatureTestRequestBuilder AddHeader(string header, StringValues value);
-
         public IFeatureTestRequestBuilder RemoveHeader(string header);
-
         public IFeatureTestRequestBuilder SetMethod(HttpMethod httpMethod);
-
         public IFeatureTestRequestBuilder SetRelativeUrl(Uri uri);
-
         public IFeatureTestRequestBuilder SetUriApiVersion(string version);
-
         public IFeatureTestRequestBuilder AddQueryParameter(string parameterName, string value);
-
         public IFeatureTestRequestBuilder SetSubUri(string suburi);
         public IFeatureTestRequestBuilder SetBody(string body);
-
         public FeatureTestRequest Build();
     }
 

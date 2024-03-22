@@ -1,8 +1,5 @@
 ﻿using FeatureTestsFramework.HttpRequest;
-using FeatureTestsFramework.Placeholders.Replacers;
-using FeatureTestsFramework.Placeholders.Request;
-using FeatureTestsFramework.Placeholders.Response;
-using FeatureTestsFramework.Placeholders.Uri;
+using FeatureTestsFramework.Placeholders;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

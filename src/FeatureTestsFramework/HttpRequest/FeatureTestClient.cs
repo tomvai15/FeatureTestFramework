@@ -4,6 +4,11 @@ using Newtonsoft.Json.Linq;
 
 namespace FeatureTestsFramework.HttpRequest
 {
+    public interface IFeatureTestClient
+    {
+        Task<FeatureTestResponse> SendRequest(FeatureTestRequest featureTestRequest);
+    }
+
     public class FeatureTestClient : IFeatureTestClient
     {
         private readonly HttpClient _httpClient;
@@ -22,22 +27,14 @@ namespace FeatureTestsFramework.HttpRequest
 
         private async Task<FeatureTestResponse> ConvertToFeatureTestResponse(FeatureTestRequest featureTestRequest, HttpResponseMessage response)
         {
-            var responseStream = await response.Content.ReadAsStreamAsync();
-            string responseBody;
-            try
-            {
-                using var responseReader = new StreamReader(responseStream);
-                var responseContent = await responseReader.ReadToEndAsync();
-                var containsContentType = response.Headers.TryGetValues("Content-Type", out var values);
-                var isJson = containsContentType ? values.Any(value => value.Contains("json")) : false;
-                responseBody = isJson ? Format(responseContent) : responseContent;
+            var responseContent = await response.Content.ReadAsStringAsync();
 
-                return new FeatureTestResponse(featureTestRequest, response, responseBody);
-            }
-            finally
-            {
-                await responseStream.DisposeAsync();
-            }
+            var containsContentType = response.Headers.TryGetValues("Content-Type", out var values);
+            var isJson = containsContentType ? values.Any(value => value.Contains("json")) : false;
+            var responseBody = isJson ? Format(responseContent) : responseContent;
+
+            return new FeatureTestResponse(featureTestRequest, response, responseBody);
+
         }
 
         private static string Format(string json) => JsonConvert.SerializeObject(JToken.Parse(json), Formatting.Indented, new IsoDateTimeConverter { DateTimeFormat = "O" });

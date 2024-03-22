@@ -1,7 +1,8 @@
 ﻿using System.Text.RegularExpressions;
+using FeatureTestsFramework.Placeholders.Evaluators;
 using TechTalk.SpecFlow;
 
-namespace FeatureTestsFramework.Placeholders.Replacers
+namespace FeatureTestsFramework.Placeholders
 {
     public interface IPlaceholderReplacer<T> where T : IPlaceholderEvaluator
     {

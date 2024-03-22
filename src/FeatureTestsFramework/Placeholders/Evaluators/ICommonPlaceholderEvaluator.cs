@@ -2,7 +2,7 @@
 
 namespace FeatureTestsFramework.Placeholders.Evaluators
 {
-    public interface ICustomPlaceholderEvaluator
+    public interface ICommonPlaceholderEvaluator
     {
         string Key { get; }
         string Evaluate(ScenarioContext context);

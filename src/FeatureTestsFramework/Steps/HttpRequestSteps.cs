@@ -1,15 +1,12 @@
-﻿using FeatureTestsFramework.Placeholders.Replacers;
-using System.Net;
+﻿using System.Net;
 using TechTalk.SpecFlow;
 using FeatureTestsFramework.Extensions;
 using FeatureTestsFramework.HttpRequest;
-using FeatureTestsFramework.Placeholders.Response;
-using FeatureTestsFramework.Placeholders.Request;
-using FeatureTestsFramework.Placeholders.Uri;
 using FeatureTestsFramework.Assertions;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.Extensions.Primitives;
+using FeatureTestsFramework.Placeholders;
 
 namespace FeatureTestsFramework.Steps
 {
