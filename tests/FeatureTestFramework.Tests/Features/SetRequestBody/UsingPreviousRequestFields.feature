@@ -10,7 +10,7 @@ Background:
 		{ 
 			"car": { 
 				"id": 2, 
-				"name": This is name" 
+				"name": "This is name" 
 			} 
 		} 
 		"""
@@ -22,9 +22,9 @@ Scenario: I have an HTTP request with body. Verify that previous request placeho
 		{ 
 			"tire": { 
 				"id": 1, 
-				"creationDate: "2011-10-05714:48:00.0002", 
+				"creationDate": "2011-10-05T14:48:00.0002", 
 				"manufacturerCode": "327d7cdb-de0b-4221-be51-6f9dedf02b55", 
-				"carld": {(car.id}} 
+				"carId": {{car.id}} 
 			} 
 		} 
 		"""
@@ -34,7 +34,7 @@ Scenario: I have an HTTP request with body. Verify that previous request placeho
 		"""
 		{ 
 			"tire": { 
-				"carld": 2 
+				"carId": 2 
 			} 
 		} 
 		"""

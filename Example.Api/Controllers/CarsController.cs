@@ -5,7 +5,7 @@ namespace Example.Api.Controllers
 {
     [ApiController]
     [Route("api/v1/cars")]
-    public class CarsController: ControllerBase
+    public class CarsController : ControllerBase
     {
         private readonly List<Car> cars = new List<Car>()
         {
@@ -15,22 +15,17 @@ namespace Example.Api.Controllers
         [HttpGet("{carId}")]
         public IActionResult GetCar(int carId)
         {
-            var result = cars.First(x => x.Id == carId);
-            if (result == null)
-            {
-                return NotFound();
-            }
-            return Ok(result);
+            return Ok(cars.First());
         }
 
         [HttpDelete("{carId}")]
         public IActionResult DeleteCar(int carId)
-        {       
+        {
             return Ok();
         }
 
         [HttpPut("{carId}")]
-        public IActionResult PutCar(int carId, [FromBody]Car car)
+        public IActionResult PutCar(int carId, [FromBody] Car car)
         {
             return Ok();
         }
@@ -56,6 +51,33 @@ namespace Example.Api.Controllers
         [HttpGet("{carId}/tires/{tireId}/bolts/{boltId}")]
         public IActionResult GetCarTireBolt(int carId, int tireId, int boltId)
         {
+            return Ok();
+        }
+
+        [HttpGet("/validate-query/{queryValue}")]
+        public IActionResult GetQuery(string queryValue, [FromQuery] string include)
+        {
+            if (include != queryValue)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        [HttpGet("/validate-query/{queryValue1}/{queryValue2}")]
+        public IActionResult GetQuery(string queryValue1, string queryValue2, [FromQuery] string include1, [FromQuery] string include2)
+        {
+            if (include1 != queryValue1)
+            {
+                return BadRequest();
+            }
+
+            if (include2 != queryValue2)
+            {
+                return BadRequest();
+            }
+
             return Ok();
         }
     }

@@ -18,9 +18,7 @@ namespace FeatureTestsFramework.Bootstrapping
 
         public static IServiceCollection AddCommonPlaceholders(this IServiceCollection services, IConfiguration configuration) 
         {
-            services.TryAddTransient<IPlaceholderReplacer<IResponsePlaceholderEvaluator>, PlaceholderReplacer<IResponsePlaceholderEvaluator>>();
-            services.TryAddTransient<IPlaceholderReplacer<IRequestPlaceholderEvaluator>, PlaceholderReplacer<IRequestPlaceholderEvaluator>>();
-            services.TryAddTransient<IPlaceholderReplacer<IUriPlaceholderEvaluator>, PlaceholderReplacer<IUriPlaceholderEvaluator>>();
+            services.TryAddTransient(typeof(IPlaceholderReplacer<>), typeof(PlaceholderReplacer<>));
 
             services.TryAddTransient<IResponsePlaceholderEvaluator, ResponsePlaceholderEvaluator>();
             services.TryAddTransient<IRequestPlaceholderEvaluator, RequestPlaceholderEvaluator>();

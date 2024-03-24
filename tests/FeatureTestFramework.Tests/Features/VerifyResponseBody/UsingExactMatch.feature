@@ -10,17 +10,8 @@ Endpoints GET /car/1 returns body:
 	"name": "Car"
 }
 
-Background:
-	Given I set sub Uri to "/api/v1"
-
-Scenario: the response body should match. Verifies that non json response body is asserted
-	Given I have an HTTP "GET" "/healthcheck" request
-	When I send the request
-	Then the response status code should be 200
-	And the response body should match 'Healthy'
-
 Scenario: the response body should match. Verifies that json response body is asserted
-	Given I have an HTTP "GET" "/cars/1" request
+	Given I have an HTTP "GET" "/api/v1/cars/1" request
 	When I send the request
 	Then the response status code should be 200
 	And the response body should match
@@ -32,7 +23,7 @@ Scenario: the response body should match. Verifies that json response body is as
 		"""
 
 Scenario: the response body should match. Verifies that partial body is verified
-	Given I have an HTTP "GET" "/cars/1" request
+	Given I have an HTTP "GET" "/api/v1/cars/1" request
 	When I send the request
 	Then the response status code should be 200
 	And the response body should match

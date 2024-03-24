@@ -12,7 +12,7 @@ namespace FeatureTestsFramework.Placeholders.Evaluators
 
         private const string IdRegex = "[1-9][0-9]*";
 
-        private const string IsoStandardDateRegex = "([0-9]{4})-(1[0-2]|0[1-9])-(3[01] |0[1-9] | [12][0-9])[IT] (2[0-3]|[01][0-9]): ([0-5][0-9]): ([0-5][0-9]).?([0-9]*)Z?";
+        private const string IsoStandardDateRegex = "(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2}(?:\\.\\d*)?)((-(\\d{2}):(\\d{2})|Z)?)";
 
         private const string GuidRegex = "[0-9A-Fa-f]{8}-?([0-9A-Fa-f]{4}-?){3}[0-9A-Fa-f]{12}";
 
@@ -41,8 +41,8 @@ namespace FeatureTestsFramework.Placeholders.Evaluators
             placeholderEvaluator.AddEvaluation("Today", (_) => DateTime.UtcNow.ToString(format: "O"));
             placeholderEvaluator.AddEvaluation("Midnight", (_) => DateTime.UtcNow.Date.ToString(format: "O"));
             placeholderEvaluator.AddEvaluation("JustBeforeMidnight", (_) => DateTime.UtcNow.Date.AddSeconds(-1).ToString(format: "O"));
-            placeholderEvaluator.AddEvaluation("JustAfterMidnight", (_) => DateTime.UtcNow.Date.AddSeconds(1).ToString(format: "0"));
-            placeholderEvaluator.AddEvaluation("Future", (_) => Future.ToString(format: "0"));
+            placeholderEvaluator.AddEvaluation("JustAfterMidnight", (_) => DateTime.UtcNow.Date.AddSeconds(1).ToString(format: "O"));
+            placeholderEvaluator.AddEvaluation("Future", (_) => Future.ToString(format: "O"));
             placeholderEvaluator.AddEvaluation("Past", (_) => Past.ToString(format: "O"));
             placeholderEvaluator.AddEvaluation("NoDate", (_) => default(DateTime).ToString(format: "O"));
 

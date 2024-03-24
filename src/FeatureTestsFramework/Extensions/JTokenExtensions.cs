@@ -39,7 +39,7 @@ namespace FeatureTestsFramework.Extensions
                 JTokenType.Date => token.ToObject<DateTime>().ToString("O"),
                 JTokenType.Boolean => token.ToObject<bool>(),
                 JTokenType.Float => token.ToObject<float>(),
-                JTokenType.Integer => token.ToObject<int>(),
+                JTokenType.Integer => token.ToObject<long>(),
                 JTokenType.Null => null,
                 _ => token
             };

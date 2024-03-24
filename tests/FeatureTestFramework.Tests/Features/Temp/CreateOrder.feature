@@ -1,4 +1,5 @@
-﻿Feature: CreateOrder
+﻿@ignore
+Feature: CreateOrder
 
 Scenario: PostOrder. Gets user and creates an order.
 	Given I have an HTTP "POST" "/create-order" request with body

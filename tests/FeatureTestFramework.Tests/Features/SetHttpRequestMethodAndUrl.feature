@@ -41,7 +41,6 @@ Scenario: I have an HTTP request. Replaces placeholders in Url.
 Examples:
 	| Url                                                                |
 	| /api/v1/cars/{{AnyNumber}}                                         |
-	| /api/v1/cars/{{AnyNumber}}                                         |
 	| /api/v1/cars/{{AnyNumber}}/tires/{{AnyNumber}}                     |
 	| /api/v1/cars/{{AnyNumber}}/tires/{{AnyNumber}}/bolts/{{AnyNumber}} |
 

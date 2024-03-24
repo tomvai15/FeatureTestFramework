@@ -1,33 +1,81 @@
-﻿Feature: VerifyResponseBody_UsingExactFormatting
+﻿Feature: VerifyResponseBody_UsingRegexPlaceholders
 
-To check if object exists in the body without asserting specific values,
-it is needed to use `the response body should match exact formatting` to avoid reformating json.
-If reformating is applied, brackets are moved to the single line, because of this actual and expected responses won't match/
-
-To validate this behaviour folllowing endpoints are used:
-Endpoint POST /cars which returns 400, when it doesn't receive following body:
-{
-	"id": int,
-	"name": string
-}
+To check if response fields has value, which matches specific pattern following placeholders can be used:
+- AnyId matches only positive integers
+- AnyNumber matches any integer, decimal values
+- AnyString matches any text values
+- AnyIsoDate matches Iso date format (yyyy-MM-ddThh:mm:ss.fffffffZ, yyyy-MM-dd hh:mm:ss.fffffffZ, yyyy-MM-dd hh:mm:ss.fffffff)
+- AnyGuid matches guid value
+- EmptyArray matches []
 
 Background:
 	Given I set sub Uri to "/api/v1"
 
-Scenario: the response body should match exact formatting. Does not reformat json when comparing actual and expected respone
-	Given I have an HTTP "POST" "/cars" request with body
-		"""
-		{
+Scenario: the response body should match. Verify that AnyGuid, AnyIsoDate and AnyId placeholders are replaced.
+	Given I have an HTTP "POST" "/cars/1/tires" request with body
+	"""
+	{
+		"tire": {
+			"id": 1,
+			"creationDate": "2011-10-05T14:48:00.0000000Z",
+			"manufacturerCode": "327d7cdb-de0b-4221-be51-6f9dedf02b55",
+			"carId": 2
 		}
-		"""
+	}
+	"""
 	When I send the request
-	Then the response status code should be 400
-	And the response body should match exact formatting
-		"""
-		{
-			"title": "One or more validation errors occured.",
-			"status": 400,
-			"error": {
-			}
+	Then the response status code should be 200
+	And the response body should match
+	"""
+	{
+		"tire": {
+			"id": {{AnyId}},
+			"creationDate": "{{AnyIsoDate}}",
+			"manufacturerCode": "{{AnyGuid}}",
+			"carId": {{AnyNumber}}
 		}
-		"""
+	}
+	"""
+
+Scenario: the response body should match. Verify that multiple placeholders are replaced
+	Given I have an HTTP "POST" "/cars" request with body
+	"""
+	{
+		"car": {
+			"id": 1,
+			"name": "This is name"
+		}
+	}
+	"""
+	When I send the request
+	Then the response status code should be 200
+	And the response body should match
+	"""
+	{
+		"car": {
+			"id": 1,
+			"name": "{{AnyString}} {{AnyString}} {{AnyString}}"
+		}
+	}
+	"""
+
+Scenario: the response body should match. Verify empty array
+	Given I have an HTTP "POST" "/cars" request with body
+	"""
+	{
+		"car": {
+			"id": 1,
+			"name": "This is name"
+		}
+	}
+	"""
+	When I send the request
+	Then the response status code should be 200
+	And the response body should match
+	"""
+	{
+		"car": {
+			"tires": {{EmptyArray}}
+		}
+	}
+	"""

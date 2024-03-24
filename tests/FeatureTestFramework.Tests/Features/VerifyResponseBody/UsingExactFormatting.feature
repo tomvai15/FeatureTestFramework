@@ -23,11 +23,11 @@ Scenario: the response body should match exact formatting. Does not reformat jso
 	When I send the request
 	Then the response status code should be 400
 	And the response body should match exact formatting
-		"""
-		{
-			"title": "One or more validation errors occured.",
-			"status": 400,
-			"error": {
-			}
-		}
-		"""
+	"""
+	{
+	  "title": "One or more validation errors occurred.",
+	  "status": 400,
+	  "errors": {
+	  }
+	}
+	"""

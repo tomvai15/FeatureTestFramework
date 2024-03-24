@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <SpecFlowObsoleteCodeBehindFiles Remove="Features\RemoveRequestHeader - Copy.feature.cs" />
     <SpecFlowObsoleteCodeBehindFiles Remove="Features\SetSubUri - Copy.feature.cs" />
   </ItemGroup>
 
@@ -36,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Features\CreateOrder.feature.cs">
+    <Compile Update="Features\Temp\CreateOrder.feature.cs">
       <DependentUpon>CreateOrder.feature</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -48,7 +49,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <SpecFlowFeatureFiles Update="Features\CreateOrder.feature">
+    <SpecFlowFeatureFiles Update="Features\ResponseContainsHeader.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="Features\Temp\CreateOrder.feature">
       <Visible>$(UsingMicrosoftNETSdk)</Visible>
       <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
     </SpecFlowFeatureFiles>

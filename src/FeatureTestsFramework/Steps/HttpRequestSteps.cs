@@ -68,7 +68,9 @@ namespace FeatureTestsFramework.Steps
                 expectedRegexedResponseBody = responsePlaceholderReplacer.Replace(formatedJson, context);
                 response.Should().NotBeNull();
             }
-            response.ResponseBody.ShouldMatchRegexLineByLine(expectedRegexedResponseBody);
+            response.ResponseBody
+                .FormatAsJToken()
+                .ShouldMatchRegexLineByLine(expectedRegexedResponseBody);
         }
 
 
@@ -78,7 +80,9 @@ namespace FeatureTestsFramework.Steps
         {
             response.Should().NotBeNull();
             var expectedRegexedResponseBody = responsePlaceholderReplacer.Replace(expectedResponseBody, context);
-            response.ResponseBody.ShouldMatchRegexLineByLine(expectedRegexedResponseBody);
+            response.ResponseBody
+                .FormatAsJToken()
+                .ShouldMatchRegexLineByLine(expectedRegexedResponseBody);
         }
 
         [Given(@"I have an HTTP ""([^""]*)"" ""([^""]*)"" request")]
@@ -127,7 +131,7 @@ namespace FeatureTestsFramework.Steps
             response.Headers.Should().Contain(h => h.Key == name && h.Value.Contains(value));
         }
 
-        [Then(@"response headers should contain name and value")]
+        [Then(@"the response headers should contain name and value")]
         public void ThenHeadersShouldContainNameAndValue(Table table)
         {
             var expectedHeaders = table.Rows.Select(r => new Header(r["Header"], r["Value"])).ToList();
@@ -141,7 +145,7 @@ namespace FeatureTestsFramework.Steps
             }
         }
 
-        [Given(@"I add a request header ""([^""])""")]
+        [Given(@"I add a request header ""([^""]*)""")]
         public void GivenIAddARequestHeader(string header)
         {
             requestBuilder.AddHeader(header, new StringValues("Can-be-anything"));
@@ -153,13 +157,13 @@ namespace FeatureTestsFramework.Steps
             requestBuilder.AddHeader(name, value);
         }
 
-        [Given(@"I add a query parameter ""([^""]*)"" with value ""([^""]*) """)]
+        [Given(@"I add a query parameter ""([^""]*)"" with value ""([^""]*)""")]
         public void GivenIAddQueryParameter(string parameterName, string value)
         {
             requestBuilder.AddQueryParameter(parameterName, value);
         }
 
-        [Given(@"the header removed is (.*)")]
+        [Given(@"the header removed is ""([^""]*)""")]
         [Given(@"I remove header ""([^""]*)""")]
         public void GivenTheHeaderRemovedIs(string header)
         {

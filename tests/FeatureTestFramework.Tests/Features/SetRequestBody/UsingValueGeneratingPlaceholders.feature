@@ -28,12 +28,12 @@ Scenario: I have an HTTP request with body. Replaces number generating piacehold
 	Given I have an HTTP "POST" "/verify-numbers" request with body
 		"""
 		{ 
-			"anyId": "{{AnyId}}", 
-			"notExistingId": "{{NotExistingId}}", 
-			"anyNegativeNumber": "{{AnyNegativeNumber}}", 
-			"anyPositiveNumber": "{{AnyPositiveNumber}}, 
-			"anyNumber": "{{AnyNumber}}", 
-			"anyDecimal": "{{AnyDecimal}}" 
+			"anyId": {{AnyId}}, 
+			"notExistingId": {{NotExistingId}}, 
+			"anyNegativeNumber": {{AnyNegativeNumber}}, 
+			"anyPositiveNumber": {{AnyPositiveNumber}}, 
+			"anyNumber": {{AnyNumber}}, 
+			"anyDecimal": {{AnyDecimal}} 
 		}
 		"""
 	When I send the request
@@ -45,10 +45,10 @@ Scenario: I have an HTTP request with body. Replaces date generating placeholder
 		{
 			"past": "{{Past}}", 
 			"today": "{{Today}}", 
-			"future": "{Future}", 
+			"future": "{{Future}}", 
 			"midnight": "{{Midnight}}", 
-			"justBeforeMidnight": "{{JustBeforeMidnight}}, 
-			"justAfterMidnight": "{(JustAfterMidnightl)", 
+			"justBeforeMidnight": "{{JustBeforeMidnight}}", 
+			"justAfterMidnight": "{{JustAfterMidnight}}", 
 			"noDate": "{{NoDate}}" 
 		} 
 		"""
