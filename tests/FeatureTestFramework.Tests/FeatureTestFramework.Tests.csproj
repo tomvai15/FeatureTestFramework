@@ -8,11 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <SpecFlowObsoleteCodeBehindFiles Remove="Features\RemoveRequestHeader - Copy.feature.cs" />
-    <SpecFlowObsoleteCodeBehindFiles Remove="Features\SetSubUri - Copy.feature.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <UpToDateCheckInput Remove="Features\Auth.feature" />
   </ItemGroup>
 
@@ -58,5 +53,9 @@
       <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
     </SpecFlowFeatureFiles>
   </ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Xunit" />
+	</ItemGroup>
 
 </Project>
