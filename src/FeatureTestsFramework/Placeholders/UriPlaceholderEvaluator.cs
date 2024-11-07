@@ -6,7 +6,7 @@ namespace FeatureTestsFramework.Placeholders
     {
     }
 
-    public class UriPlaceholderEvaluator : PlaceholderEvaluatorConfiguration, IUriPlaceholderEvaluator
+    public class UriPlaceholderEvaluator : PlaceholderEvaluatorBase, IUriPlaceholderEvaluator
     {
         public UriPlaceholderEvaluator(IEnumerable<ICommonPlaceholderEvaluator> customEvaluators) : base(customEvaluators)
         {

@@ -85,6 +85,8 @@ namespace FeatureTestsFramework.Steps
                 .ShouldMatchRegexLineByLine(expectedRegexedResponseBody);
         }
 
+        [Given(@"I have an HTTP ""{0}"" ""{1}"" request")]
+
         [Given(@"I have an HTTP ""([^""]*)"" ""([^""]*)"" request")]
         private void GivenIHaveAnHttpRequest(string httpMethod, string url)
         {

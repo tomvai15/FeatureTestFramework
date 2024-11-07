@@ -1,5 +1,6 @@
 ﻿using FeatureTestsFramework.Extensions;
 using FeatureTestsFramework.HttpRequest;
+using TechTalk.SpecFlow;
 using static FeatureTestsFramework.Dummy;
 
 namespace FeatureTestsFramework.Placeholders.Evaluators
@@ -95,10 +96,12 @@ namespace FeatureTestsFramework.Placeholders.Evaluators
 
         public static void AddTableOrConstantEvaluator(this TextEvaluator placeholderEvaluator)
         {
+
             placeholderEvaluator.AddEvaluation((key, context) =>
             {
-                var valueInContext = context.TryGetValue(key, out string value);
-                return valueInContext ? value : context.GetTableArg(key);
+                var scenarioContext = context as ScenarioContext;
+                var valueInContext = scenarioContext.TryGetValue(key, out string value);
+                return valueInContext ? value : scenarioContext.GetTableArg(key);
             },
             failureReason: "placeholder was not found in the examples table or ScenarioContext Dictionary");
         }

@@ -22,7 +22,7 @@ namespace FeatureTestsFramework.Extensions
             { 
                 if (!child.HasValues)
                 {
-                    properties.Add(child.Path, ConvertToNativeType(child));
+                    properties.Add(child.Path, child.ConvertToNativeType());
                 }
                 else
                 {
@@ -31,8 +31,10 @@ namespace FeatureTestsFramework.Extensions
             }
         }
 
-        private static object? ConvertToNativeType(JToken token)
+        public static object? ConvertToNativeType(this JToken token)
         {
+            var a = token.ToString();
+
             return token.Type switch
             {
                 JTokenType.String => token.ToString(),

@@ -4,7 +4,7 @@ namespace FeatureTestsFramework.Extensions
 {
     public static class ScenarioContextExtensions
     {
-        public static string? GetTableArg(this ScenarioContext context, string column)
+        public static string? GetTableArg(this IScenarioContext context, string column)
         {
             var args = context.ScenarioInfo.Arguments;
             var isInRow = args.Contains(column);

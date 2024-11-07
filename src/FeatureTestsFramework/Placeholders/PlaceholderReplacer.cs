@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
+using FeatureTestsFramework.Exceptions;
 using FeatureTestsFramework.Placeholders.Evaluators;
 using TechTalk.SpecFlow;
 
@@ -6,7 +8,7 @@ namespace FeatureTestsFramework.Placeholders
 {
     public interface IPlaceholderReplacer<T> where T : IPlaceholderEvaluator
     {
-        string Replace(string text, ScenarioContext context);
+        string Replace(string text, IScenarioContext context);
     }
 
     public class PlaceholderReplacer<TPlaceholderEvaluator> : IPlaceholderReplacer<TPlaceholderEvaluator>
@@ -22,15 +24,15 @@ namespace FeatureTestsFramework.Placeholders
             _placeholderEvaluator = placeholderEvaluator;
         }
 
-        public string Replace(string text, ScenarioContext context)
+        public string Replace(string text, IScenarioContext context)
         {
             var palceholders = FindAllPlaceholders(text);
-            var replacedText = text;
+            var replacedText = new StringBuilder(text);
             foreach (var placeholder in palceholders)
             {
-                replacedText = ReplacePlaceholderWithValue(replacedText, placeholder, context);
+                ReplacePlaceholderWithValue(replacedText, placeholder, context);
             }
-            return replacedText;
+            return replacedText.ToString();
         }
 
         private IEnumerable<string> FindAllPlaceholders(string text)
@@ -41,17 +43,17 @@ namespace FeatureTestsFramework.Placeholders
                     .Replace(PlaceholderEnd, string.Empty));
         }
 
-        private string ReplacePlaceholderWithValue(string json, string placeholder, ScenarioContext context)
+        private void ReplacePlaceholderWithValue(StringBuilder json, string placeholder, IScenarioContext context)
         {
             var placeholderValue = _placeholderEvaluator.Evaluate(placeholder, context);
 
             if (placeholderValue == null)
             {
-                throw new Exception($"Placeholder {placeholder} was not found");
+                throw new MissingPlaceholderValueException($"Placeholder {placeholder} was not found");
             }
 
             var valueToReplace = PlaceholderStart + placeholder + PlaceholderEnd;
-            return json.Replace(valueToReplace, placeholderValue);
+            json.Replace(valueToReplace, placeholderValue);
         }
     }
 }

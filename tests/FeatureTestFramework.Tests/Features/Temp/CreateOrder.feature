@@ -18,4 +18,4 @@ Scenario: PostOrder. Gets user and creates an order.
 			"orderName": "TestOrder"	
 		}
 		"""
-	And the response status code should be 200
+	And the response status code be 200

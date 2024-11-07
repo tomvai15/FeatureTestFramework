@@ -14,6 +14,6 @@ namespace FeatureTestsFramework.Placeholders.Evaluators
             _value = value;
         }
 
-        public string Evaluate(ScenarioContext context) => _value;
+        public string Evaluate(IScenarioContext context) => _value;
     }
 }

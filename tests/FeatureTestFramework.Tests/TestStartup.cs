@@ -13,6 +13,7 @@ namespace FeatureTestFramework.Tests
         {
             ConfigurationAccessor.AddUserSecrets<TestStartup>();
             var services = ServiceAccessor.ServiceCollection;
+            services.AddCommonServices(ConfigurationAccessor.Configuration);
             services.ConfigureServices(ConfigurationAccessor.Configuration);
         }
     }

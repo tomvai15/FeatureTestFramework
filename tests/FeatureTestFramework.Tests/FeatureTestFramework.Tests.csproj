@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FeatureTestFramework.HttpSteps" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     <PackageReference Include="SpecFlow.xUnit" Version="3.9.74" />
@@ -28,7 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Example.Api\Example.Api.csproj" />
-    <ProjectReference Include="..\..\src\FeatureTestsFramework\FeatureTestsFramework.csproj" />
   </ItemGroup>
 
   <ItemGroup>

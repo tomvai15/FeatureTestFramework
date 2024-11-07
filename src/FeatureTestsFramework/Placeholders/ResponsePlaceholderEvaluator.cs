@@ -6,7 +6,7 @@ namespace FeatureTestsFramework.Placeholders
     {
     }
 
-    public class ResponsePlaceholderEvaluator : PlaceholderEvaluatorConfiguration, IResponsePlaceholderEvaluator
+    public class ResponsePlaceholderEvaluator : PlaceholderEvaluatorBase, IResponsePlaceholderEvaluator
     {
         public ResponsePlaceholderEvaluator(IEnumerable<ICommonPlaceholderEvaluator> customEvaluators) : base(customEvaluators)
         {

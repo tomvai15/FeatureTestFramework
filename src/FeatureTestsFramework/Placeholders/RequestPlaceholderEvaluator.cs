@@ -6,7 +6,7 @@ namespace FeatureTestsFramework.Placeholders
     {
     }
 
-    public class RequestPlaceholderEvaluator : PlaceholderEvaluatorConfiguration, IRequestPlaceholderEvaluator
+    public class RequestPlaceholderEvaluator : PlaceholderEvaluatorBase, IRequestPlaceholderEvaluator
     {
         public RequestPlaceholderEvaluator(IEnumerable<ICommonPlaceholderEvaluator> customEvaluators) : base(customEvaluators)
         {

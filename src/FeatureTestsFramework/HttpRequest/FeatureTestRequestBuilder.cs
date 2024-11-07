@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Primitives;
+using System.Text;
 
 namespace FeatureTestsFramework.HttpRequest
 {
@@ -75,18 +76,22 @@ namespace FeatureTestsFramework.HttpRequest
 
         public FeatureTestRequest Build()
         {
-            var path = featureTestRequest.EndpointRelativeUri.ToString();
-
-            // TODO: consider using UriBuilder.
-            char seperator = '?';
-            foreach (var query in queryParameters)
-            {
-                path += $"{seperator}{query.Name}={query.Value}";
-                seperator = '&';
-            }
+            var path = featureTestRequest.EndpointRelativeUri.ToString() + CombineQueryParameters(queryParameters);
 
             featureTestRequest.EndpointRelativeUri = new Uri(path, UriKind.Relative);
             return featureTestRequest;
+        }
+
+        private static string CombineQueryParameters(List<QueryParameter> queryParameters)
+        {
+            var sb = new StringBuilder();
+            char seperator = '?';
+            foreach (var query in queryParameters)
+            {
+                sb.Append($"{seperator}{query.Name}={query.Value}");
+                seperator = '&';
+            }
+            return sb.ToString();
         }
     }
 }

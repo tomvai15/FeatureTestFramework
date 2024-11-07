@@ -4,7 +4,7 @@ namespace FeatureTestsFramework.Placeholders.Evaluators
 {
     public class Evaluation
     {
-        public Func<string, ScenarioContext, string> Evaluate { get; set; }
+        public Func<string, IScenarioContext, string> Evaluate { get; set; }
         public string FailureReason { get; set; }
     }
 }

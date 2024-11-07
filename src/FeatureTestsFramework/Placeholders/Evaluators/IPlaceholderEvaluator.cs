@@ -4,6 +4,6 @@ namespace FeatureTestsFramework.Placeholders.Evaluators
 {
     public interface IPlaceholderEvaluator
     {
-        string Evaluate(string key, ScenarioContext context);
+        string Evaluate(string key, IScenarioContext context);
     }
 }

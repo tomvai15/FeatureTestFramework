@@ -6,7 +6,7 @@ namespace FeatureTestsFramework.Placeholders.Evaluators
     public abstract class TextEvaluator
     {
         private readonly HashSet<Evaluation> evaluations = new();
-        private readonly Dictionary<string, Func<ScenarioContext, string>> constantEvaluators = new();
+        private readonly Dictionary<string, Func<IScenarioContext, string>> constantEvaluators = new();
 
         protected virtual string EvaluatorName => this.GetType().Name;
 
@@ -23,17 +23,17 @@ namespace FeatureTestsFramework.Placeholders.Evaluators
             constantEvaluators.Add(key, (_) => result);
         }
 
-        public void AddEvaluation(string key, Func<ScenarioContext, string> evaluation)
+        public void AddEvaluation(string key, Func<IScenarioContext, string> evaluation)
         {
             constantEvaluators.Add(key, (context) => evaluation(context));
         }
 
-        public void AddEvaluation(Func<string, ScenarioContext, string> evaluation, string failureReason)
+        public void AddEvaluation(Func<string, IScenarioContext, string> evaluation, string failureReason)
         {
             evaluations.Add(new Evaluation { Evaluate = evaluation, FailureReason = failureReason });
         }
 
-        public virtual string GetValueOfKey(string key, ScenarioContext context)
+        public virtual string GetValueOfKey(string key, IScenarioContext context)
         {
             if (constantEvaluators.ContainsKey(key))
             {

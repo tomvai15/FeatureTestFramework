@@ -29,3 +29,16 @@ Scenario: PostOrder. Gets user and creates an order.
 			"creationDate": "{{CloseToNow}}"
 		}
 	"""
+
+Scenario: GetUserInformation. Returns 404 when not found.
+	Given I have an HTTP "GET" "/UserInformation/1" request with body
+	And service "UserService" returns response with status code 200
+	"""
+	{
+		"name": "John",
+		"surname": "Doe"
+	}
+	"""
+	And service "UserService" returns response with status code 404
+	When I send the request
+	Then the response status code should be 404
