@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using TechTalk.SpecFlow;
 using FeatureTestsFramework.Extensions;
 using FeatureTestsFramework.HttpRequest;
 using FeatureTestsFramework.Assertions;
@@ -7,11 +6,12 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.Extensions.Primitives;
 using FeatureTestsFramework.Placeholders;
+using Reqnroll;
 
 namespace FeatureTestsFramework.Steps
 {
     [Binding]
-    public class HttpRequestSteps : TechTalk.SpecFlow.Steps
+    public class HttpRequestSteps
     {
         public const string ResponseKey = "Response";
         public const string RequestKey = "Request";
@@ -37,7 +37,7 @@ namespace FeatureTestsFramework.Steps
             uriPlaceholderReplacer = context.GetRequiredService<IPlaceholderReplacer<IUriPlaceholderEvaluator>>();
         }
 
-        [Given(@"I have an HTTP ""([^""]*)"" ""([^""]*)"" request with body")]
+        [Given("I have an HTTP {string} {string} request with body")]
         public void GivenIHaveAnHttpRequestWithBody(string httpMethod, string url, string requestBody)
         {
             GivenIHaveAnHttpRequest(httpMethod, url);
@@ -84,8 +84,6 @@ namespace FeatureTestsFramework.Steps
                 .FormatAsJToken()
                 .ShouldMatchRegexLineByLine(expectedRegexedResponseBody);
         }
-
-        [Given(@"I have an HTTP ""{0}"" ""{1}"" request")]
 
         [Given(@"I have an HTTP ""([^""]*)"" ""([^""]*)"" request")]
         private void GivenIHaveAnHttpRequest(string httpMethod, string url)

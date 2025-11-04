@@ -1,6 +1,6 @@
 ﻿using FeatureTestsFramework.HttpRequest;
 using FeatureTestsFramework.Steps;
-using TechTalk.SpecFlow;
+using Reqnroll;
 
 namespace FeatureTestsFramework.Extensions
 {

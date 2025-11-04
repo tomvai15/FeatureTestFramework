@@ -1,5 +1,6 @@
 ﻿using FeatureTestsFramework.Extensions;
 using FluentAssertions;
+using Xunit;
 
 namespace FeatureTestFramework.UnitTests.Extensions
 {

@@ -1,5 +1,5 @@
 ﻿using FeatureTestsFramework.Placeholders.Evaluators;
-using TechTalk.SpecFlow;
+using Reqnroll;
 
 namespace FeatureTestsFramework.Placeholders
 {

@@ -1,6 +1,9 @@
-﻿using FeatureTestsFramework.HttpRequest;
+﻿using System;
+using System.Net.Http;
+using FeatureTestsFramework.HttpRequest;
 using FluentAssertions;
 using Microsoft.Extensions.Primitives;
+using Xunit;
 
 namespace FeatureTestFramework.UnitTests.HttpRequest
 {
