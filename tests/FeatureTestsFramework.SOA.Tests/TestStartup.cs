@@ -1,6 +1,6 @@
 ﻿using FeatureTestsFramework.Bootstrapping;
 using FeatureTestsFramework.SOA.Tests.Bootstrapping;
-using TechTalk.SpecFlow;
+using Reqnroll;
 
 namespace FeatureTestsFramework.SOA.Tests
 {

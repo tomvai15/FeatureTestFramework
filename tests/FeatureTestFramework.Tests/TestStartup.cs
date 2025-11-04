@@ -1,7 +1,7 @@
 ﻿using FeatureTestFramework.Tests.Bootstrapping;
 using FeatureTestsFramework;
 using FeatureTestsFramework.Bootstrapping;
-using TechTalk.SpecFlow;
+using Reqnroll;
 
 namespace FeatureTestFramework.Tests
 {

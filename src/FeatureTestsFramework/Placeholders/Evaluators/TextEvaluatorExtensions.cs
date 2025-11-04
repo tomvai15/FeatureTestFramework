@@ -1,6 +1,6 @@
 ﻿using FeatureTestsFramework.Extensions;
 using FeatureTestsFramework.HttpRequest;
-using TechTalk.SpecFlow;
+using Reqnroll;
 using static FeatureTestsFramework.Dummy;
 
 namespace FeatureTestsFramework.Placeholders.Evaluators

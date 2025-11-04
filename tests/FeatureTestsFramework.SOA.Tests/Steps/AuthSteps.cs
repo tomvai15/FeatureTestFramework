@@ -1,7 +1,7 @@
 ﻿using FeatureTestsFramework.Extensions;
 using FeatureTestsFramework.HttpRequest;
 using FeatureTestsFramework.SOA.Tests.Logic.Token;
-using TechTalk.SpecFlow;
+using Reqnroll;
 
 namespace FeatureTestsFramework.SOA.Tests.Steps
 {

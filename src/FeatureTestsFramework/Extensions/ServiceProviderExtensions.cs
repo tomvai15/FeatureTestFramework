@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TechTalk.SpecFlow;
+using Reqnroll;
 
 namespace FeatureTestsFramework.Extensions
 {

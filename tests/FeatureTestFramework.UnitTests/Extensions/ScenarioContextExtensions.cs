@@ -1,8 +1,10 @@
 ﻿using Moq;
-using TechTalk.SpecFlow;
+using System.Collections.Specialized;
 using FeatureTestsFramework.Extensions;
 using FluentAssertions;
-using System.Collections.Specialized;
+using Reqnroll;
+using Xunit;
+using static FeatureTestsFramework.Dummy;
 
 namespace FeatureTestFramework.UnitTests.Extensions
 {

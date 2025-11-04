@@ -1,6 +1,6 @@
 ﻿using FeatureTestsFramework.Extensions;
 using FluentAssertions;
-using TechTalk.SpecFlow;
+using Reqnroll;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
