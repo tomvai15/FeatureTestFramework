@@ -1,18 +1,17 @@
 ﻿using FeatureTestsFramework.Placeholders.Evaluators;
 
-namespace FeatureTestsFramework.Placeholders
-{
-    public interface IResponsePlaceholderEvaluator : IPlaceholderEvaluator
-    {
-    }
+namespace FeatureTestsFramework.Placeholders;
 
-    public class ResponsePlaceholderEvaluator : PlaceholderEvaluatorBase, IResponsePlaceholderEvaluator
+public interface IResponsePlaceholderEvaluator : IPlaceholderEvaluator
+{
+}
+
+public class ResponsePlaceholderEvaluator : PlaceholderEvaluatorBase, IResponsePlaceholderEvaluator
+{
+    public ResponsePlaceholderEvaluator(IEnumerable<ICommonPlaceholderEvaluator> customEvaluators) : base(customEvaluators)
     {
-        public ResponsePlaceholderEvaluator(IEnumerable<ICommonPlaceholderEvaluator> customEvaluators) : base(customEvaluators)
-        {
-            this.AddValueFormatExpectationEvaluators();
-            this.AddLastRequestEvaluator();
-            this.AddTableOrConstantEvaluator();
-        }
+        this.AddValueFormatExpectationEvaluators();
+        this.AddLastRequestEvaluator();
+        this.AddTableOrConstantEvaluator();
     }
 }

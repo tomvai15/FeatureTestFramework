@@ -2,32 +2,31 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FeatureTestFramework.Tests.Bootstrapping
+namespace FeatureTestFramework.Tests.Bootstrapping;
+
+public static class WebApplicationFactoryRegistration
 {
-    public static class WebApplicationFactoryRegistration
+    public static IServiceCollection AddWebApplicationFactory(this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection AddWebApplicationFactory(this IServiceCollection services, IConfiguration configuration)
-        {
-            var factory = new ExampleApiWebApplicationFactory();
-            var client = factory.CreateClient();
+        var factory = new ExampleApiWebApplicationFactory();
+        var client = factory.CreateClient();
 
-            services.AddSingleton(factory);
-            services.AddSingleton(client);
+        services.AddSingleton(factory);
+        services.AddSingleton(client);
 
-            services.AddWebApplicationFactoryHttpClient(configuration);
+        services.AddWebApplicationFactoryHttpClient(configuration);
 
-            return services;
-        }
+        return services;
+    }
 
-        public static IServiceCollection AddWebApplicationFactoryHttpClient(this IServiceCollection services, IConfiguration configuration)
-        {
-            var configurationSection = configuration.GetSection(FeatureTestClientConfiguration.SectionName);
-            services.Configure<FeatureTestClientConfiguration>(configurationSection);
-            var clientConfiguration = new FeatureTestClientConfiguration();
-            configurationSection.Bind(clientConfiguration);
+    public static IServiceCollection AddWebApplicationFactoryHttpClient(this IServiceCollection services, IConfiguration configuration)
+    {
+        var configurationSection = configuration.GetSection(FeatureTestClientConfiguration.SectionName);
+        services.Configure<FeatureTestClientConfiguration>(configurationSection);
+        var clientConfiguration = new FeatureTestClientConfiguration();
+        configurationSection.Bind(clientConfiguration);
 
-            services.AddSingleton<IFeatureTestClient, FeatureTestClient>();
-            return services;
-        }
+        services.AddSingleton<IFeatureTestClient, FeatureTestClient>();
+        return services;
     }
 }

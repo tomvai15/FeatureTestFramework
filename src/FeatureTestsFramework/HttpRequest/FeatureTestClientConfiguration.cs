@@ -1,10 +1,9 @@
-﻿namespace FeatureTestsFramework.HttpRequest
-{
-    public class FeatureTestClientConfiguration
-    {
-        public const string SectionName = "FeatureTestClient";
+﻿namespace FeatureTestsFramework.HttpRequest;
 
-        public string BaseUri { get; set; }
-        public string UserAgent { get; set; }
-    }
+public class FeatureTestClientConfiguration
+{
+    public const string SectionName = "FeatureTestClient";
+
+    public string BaseUri { get; set; }
+    public string UserAgent { get; set; }
 }

@@ -1,52 +1,51 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
 
-namespace FeatureTestsFramework.Extensions
+namespace FeatureTestsFramework.Extensions;
+
+public static class JsonExtensions
 {
-    public static class JsonExtensions
+    public static string FormatJsonWithPlaceholders(this string json)
     {
-        public static string FormatJsonWithPlaceholders(this string json)
+        var matches = Regex.Matches(json, "(?<!\\\"[^\":]*){{.[^{}]*}}(?![^\",]*\\\")");
+
+        foreach (var match in matches.Reverse())
         {
-            var matches = Regex.Matches(json, "(?<!\\\"[^\":]*){{.[^{}]*}}(?![^\",]*\\\")");
-
-            foreach (var match in matches.Reverse())
-            {
-                var placeholderValue = EscapePlaceholder(match.Value);
-                json = json.ReplaceSegment(match.Index, match.Length, placeholderValue);
-            }
-
-            json = json.FormatAsJToken();
-
-            foreach (var match in matches.AsEnumerable())
-            {
-                var placeholderValue = EscapePlaceholder(match.Value);
-                json = json.Replace(placeholderValue, match.Value);
-            }
-
-            json = json.Replace("[", "\\[").Replace("]", "\\]");
-
-            return json;
+            var placeholderValue = EscapePlaceholder(match.Value);
+            json = json.ReplaceSegment(match.Index, match.Length, placeholderValue);
         }
 
-        public static string FormatAsJToken(this string json)
+        json = json.FormatAsJToken();
+
+        foreach (var match in matches.AsEnumerable())
         {
-            return JObject.Parse(json).ToString();
+            var placeholderValue = EscapePlaceholder(match.Value);
+            json = json.Replace(placeholderValue, match.Value);
         }
 
-        public static string ReplaceSegment(this string text, int index, int length, string replacement)
-        {
-            return text.Remove(index, length).Insert(index, replacement);
-        }
+        json = json.Replace("[", "\\[").Replace("]", "\\]");
 
-        private static string EscapePlaceholder(string palceholder)
-        {
-            const string markerStart = "\"__";
-            const string markerEnd = "__\"";
+        return json;
+    }
 
-            const string placeholderStart = "{{";
-            const string placeholderEnd = "}}";
+    public static string FormatAsJToken(this string json)
+    {
+        return JObject.Parse(json).ToString();
+    }
 
-            return palceholder.Replace(placeholderStart, markerStart).Replace(placeholderEnd, markerEnd);
-        }
+    public static string ReplaceSegment(this string text, int index, int length, string replacement)
+    {
+        return text.Remove(index, length).Insert(index, replacement);
+    }
+
+    private static string EscapePlaceholder(string palceholder)
+    {
+        const string markerStart = "\"__";
+        const string markerEnd = "__\"";
+
+        const string placeholderStart = "{{";
+        const string placeholderEnd = "}}";
+
+        return palceholder.Replace(placeholderStart, markerStart).Replace(placeholderEnd, markerEnd);
     }
 }

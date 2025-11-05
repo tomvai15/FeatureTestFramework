@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace FeatureTestFramework.Tests.Bootstrapping
+namespace FeatureTestFramework.Tests.Bootstrapping;
+
+public class ExampleApiWebApplicationFactory: WebApplicationFactory<Program>
 {
-    public class ExampleApiWebApplicationFactory: WebApplicationFactory<Program>
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
-        {
-            // WebApplicationFactory can be configured here.
-        }
+        // WebApplicationFactory can be configured here.
     }
 }

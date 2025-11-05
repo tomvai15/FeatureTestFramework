@@ -1,7 +1,6 @@
-﻿namespace Example.Api.Models
+﻿namespace Example.Api.Models;
+
+public class CreateTireRequest
 {
-    public class CreateTireRequest
-    {
-        public Tire Tire { get; set; }
-    }
+    public Tire Tire { get; set; }
 }

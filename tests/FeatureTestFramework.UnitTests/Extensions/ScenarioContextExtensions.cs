@@ -6,47 +6,46 @@ using Reqnroll;
 using Xunit;
 using static FeatureTestsFramework.Dummy;
 
-namespace FeatureTestFramework.UnitTests.Extensions
+namespace FeatureTestFramework.UnitTests.Extensions;
+
+public class ScenarioContextExtensionsTests
 {
-    public class ScenarioContextExtensionsTests
+    private readonly Mock<IScenarioContext> _scenarioContext = new();
+
+    [Fact]
+    public void GetTableArg_Should_Return_Null_When_Column_Not_Found()
     {
-        private readonly Mock<IScenarioContext> _scenarioContext = new();
+        // Arrange
+        var dictionary = new OrderedDictionary();
+        var scenarioInfo = new ScenarioInfo("", "", [], dictionary, []);
+        _scenarioContext.SetupGet(x => x.ScenarioInfo).Returns(scenarioInfo);
+        var scenarioContext = _scenarioContext.Object;
 
-        [Fact]
-        public void GetTableArg_Should_Return_Null_When_Column_Not_Found()
+        // Act
+        var result = scenarioContext.GetTableArg("NonExistingColumn");
+
+        // Assert
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public void GetTableArg_Should_Return_Value_When_Column_Found()
+    {
+        // Arrange
+        var expectedValue = Any<string>();
+        var columnName = Any<string>();
+        var dictionary = new OrderedDictionary
         {
-            // Arrange
-            var dictionary = new OrderedDictionary();
-            var scenarioInfo = new ScenarioInfo("", "", [], dictionary, []);
-            _scenarioContext.SetupGet(x => x.ScenarioInfo).Returns(scenarioInfo);
-            var scenarioContext = _scenarioContext.Object;
+            { columnName, expectedValue }
+        };
+        var scenarioInfo = new ScenarioInfo("", "", [], dictionary, []);
+        _scenarioContext.SetupGet(x => x.ScenarioInfo).Returns(scenarioInfo);
+        var scenarioContext = _scenarioContext.Object;
 
-            // Act
-            var result = scenarioContext.GetTableArg("NonExistingColumn");
+        // Act
+        var result = scenarioContext.GetTableArg(columnName);
 
-            // Assert
-            result.Should().BeNull();
-        }
-
-        [Fact]
-        public void GetTableArg_Should_Return_Value_When_Column_Found()
-        {
-            // Arrange
-            var expectedValue = Any<string>();
-            var columnName = Any<string>();
-            var dictionary = new OrderedDictionary
-            {
-                { columnName, expectedValue }
-            };
-            var scenarioInfo = new ScenarioInfo("", "", [], dictionary, []);
-            _scenarioContext.SetupGet(x => x.ScenarioInfo).Returns(scenarioInfo);
-            var scenarioContext = _scenarioContext.Object;
-
-            // Act
-            var result = scenarioContext.GetTableArg(columnName);
-
-            // Assert
-            result.Should().Be(expectedValue);
-        }
+        // Assert
+        result.Should().Be(expectedValue);
     }
 }

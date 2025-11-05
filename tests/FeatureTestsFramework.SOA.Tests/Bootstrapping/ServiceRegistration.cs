@@ -3,24 +3,23 @@ using FeatureTestsFramework.SOA.Tests.Logic.Bootstrapping;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FeatureTestsFramework.SOA.Tests.Bootstrapping
+namespace FeatureTestsFramework.SOA.Tests.Bootstrapping;
+
+public static class ServiceRegistration
 {
-    public static class ServiceRegistration
+    public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
+        services.AddSingleton(configuration);
+        services.AddCommonServices(configuration);
+
+        if (configuration.IsUsingMockService())
         {
-            services.AddSingleton(configuration);
-            services.AddCommonServices(configuration);
-
-            if (configuration.IsUsingMockService())
-            {
-                services.AddWebApplicationFactory(configuration);
-            }
-
-            services.AddWireMock();
-            services.AddTokenGenerationServices();
-
-            return services;
+            services.AddWebApplicationFactory(configuration);
         }
+
+        services.AddWireMock();
+        services.AddTokenGenerationServices();
+
+        return services;
     }
 }

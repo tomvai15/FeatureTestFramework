@@ -1,18 +1,17 @@
-﻿namespace Example.Api.Clients
+﻿namespace Example.Api.Clients;
+
+public interface IPostmanHttpClient
 {
-    public interface IPostmanHttpClient
-    {
-        Task<GetPostmanResponse> Get();
-    }
+    Task<GetPostmanResponse> Get();
+}
 
-    public class PostmanHttpClient(HttpClient _httpClient) : IPostmanHttpClient
+public class PostmanHttpClient(HttpClient _httpClient) : IPostmanHttpClient
+{
+    public async Task<GetPostmanResponse> Get()
     {
-        public async Task<GetPostmanResponse> Get()
-        {
-            var response = await _httpClient.GetAsync("/get");
-            response.EnsureSuccessStatusCode();
+        var response = await _httpClient.GetAsync("/get");
+        response.EnsureSuccessStatusCode();
 
-            return (await response.Content.ReadFromJsonAsync<GetPostmanResponse>())!;
-        }
+        return (await response.Content.ReadFromJsonAsync<GetPostmanResponse>())!;
     }
 }

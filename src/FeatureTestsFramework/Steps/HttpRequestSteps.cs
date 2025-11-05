@@ -8,206 +8,205 @@ using Microsoft.Extensions.Primitives;
 using FeatureTestsFramework.Placeholders;
 using Reqnroll;
 
-namespace FeatureTestsFramework.Steps
+namespace FeatureTestsFramework.Steps;
+
+[Binding]
+public class HttpRequestSteps
 {
-    [Binding]
-    public class HttpRequestSteps
+    public const string ResponseKey = "Response";
+    public const string RequestKey = "Request";
+
+    private FeatureTestResponse response;
+
+    private readonly ScenarioContext context;
+    private readonly IFeatureTestClient featureTestClient;
+    private readonly IFeatureTestRequestBuilder requestBuilder;
+    private readonly IRequestStore requestsStore;
+    private readonly IPlaceholderReplacer<IResponsePlaceholderEvaluator> responsePlaceholderReplacer;
+    private readonly IPlaceholderReplacer<IRequestPlaceholderEvaluator> requestPlaceholderReplacer;
+    private readonly IPlaceholderReplacer<IUriPlaceholderEvaluator> uriPlaceholderReplacer;
+
+    public HttpRequestSteps(ScenarioContext scenarioContext)
     {
-        public const string ResponseKey = "Response";
-        public const string RequestKey = "Request";
+        this.context = scenarioContext;
+        featureTestClient = context.GetService<IFeatureTestClient>();
+        requestBuilder = context.GetRequiredService<IFeatureTestRequestBuilder>();
+        requestsStore = context.GetRequiredService<IRequestStore>();
+        responsePlaceholderReplacer = context.GetRequiredService<IPlaceholderReplacer<IResponsePlaceholderEvaluator>>();
+        requestPlaceholderReplacer = context.GetRequiredService<IPlaceholderReplacer<IRequestPlaceholderEvaluator>>();
+        uriPlaceholderReplacer = context.GetRequiredService<IPlaceholderReplacer<IUriPlaceholderEvaluator>>();
+    }
 
-        private FeatureTestResponse response;
+    [Given("I have an HTTP {string} {string} request with body")]
+    public void GivenIHaveAnHttpRequestWithBody(string httpMethod, string url, string requestBody)
+    {
+        GivenIHaveAnHttpRequest(httpMethod, url);
+        var replacedBody = requestPlaceholderReplacer.Replace(requestBody, context);
+        requestBuilder.SetBody(replacedBody);
+    }
 
-        private readonly ScenarioContext context;
-        private readonly IFeatureTestClient featureTestClient;
-        private readonly IFeatureTestRequestBuilder requestBuilder;
-        private readonly IRequestStore requestsStore;
-        private readonly IPlaceholderReplacer<IResponsePlaceholderEvaluator> responsePlaceholderReplacer;
-        private readonly IPlaceholderReplacer<IRequestPlaceholderEvaluator> requestPlaceholderReplacer;
-        private readonly IPlaceholderReplacer<IUriPlaceholderEvaluator> uriPlaceholderReplacer;
+    [When(@"I send the request")]
+    [Given(@"I have sent the request")]
+    public async Task SendARequest()
+    {
+        var request = requestBuilder.Build();
+        response = await featureTestClient.SendRequest(request);
+        context[RequestKey] = request;
+        context[ResponseKey] = response;
+        requestsStore.AddRequest(request);
+    }
 
-        public HttpRequestSteps(ScenarioContext scenarioContext)
+    [Then(@"the response body should match '([^']*)'")]
+    [Then(@"the response body should match")]
+    public void ThenTheResponseBodyShouldMatch(string expectedResponseBody)
+    {
+        var expectedRegexedResponseBody = expectedResponseBody;
+        var responseIsJson = expectedResponseBody.TrimStart().StartsWith('{');
+        if (responseIsJson)
         {
-            this.context = scenarioContext;
-            featureTestClient = context.GetService<IFeatureTestClient>();
-            requestBuilder = context.GetRequiredService<IFeatureTestRequestBuilder>();
-            requestsStore = context.GetRequiredService<IRequestStore>();
-            responsePlaceholderReplacer = context.GetRequiredService<IPlaceholderReplacer<IResponsePlaceholderEvaluator>>();
-            requestPlaceholderReplacer = context.GetRequiredService<IPlaceholderReplacer<IRequestPlaceholderEvaluator>>();
-            uriPlaceholderReplacer = context.GetRequiredService<IPlaceholderReplacer<IUriPlaceholderEvaluator>>();
+            var formatedJson = expectedResponseBody.FormatJsonWithPlaceholders();
+            expectedRegexedResponseBody = responsePlaceholderReplacer.Replace(formatedJson, context);
+            response.Should().NotBeNull();
         }
+        response.ResponseBody
+            .FormatAsJToken()
+            .ShouldMatchRegexLineByLine(expectedRegexedResponseBody);
+    }
 
-        [Given("I have an HTTP {string} {string} request with body")]
-        public void GivenIHaveAnHttpRequestWithBody(string httpMethod, string url, string requestBody)
-        {
-            GivenIHaveAnHttpRequest(httpMethod, url);
-            var replacedBody = requestPlaceholderReplacer.Replace(requestBody, context);
-            requestBuilder.SetBody(replacedBody);
-        }
 
-        [When(@"I send the request")]
-        [Given(@"I have sent the request")]
-        public async Task SendARequest()
-        {
-            var request = requestBuilder.Build();
-            response = await featureTestClient.SendRequest(request);
-            context[RequestKey] = request;
-            context[ResponseKey] = response;
-            requestsStore.AddRequest(request);
-        }
+    [Then(@"the response body should match exact formatting '([^']*)'")]
+    [Then(@"the response body should match exact formatting")]
+    public void ThenTheResponseBodyShouldMatchExactFormatting(string expectedResponseBody)
+    {
+        response.Should().NotBeNull();
+        var expectedRegexedResponseBody = responsePlaceholderReplacer.Replace(expectedResponseBody, context);
+        response.ResponseBody
+            .FormatAsJToken()
+            .ShouldMatchRegexLineByLine(expectedRegexedResponseBody);
+    }
 
-        [Then(@"the response body should match '([^']*)'")]
-        [Then(@"the response body should match")]
-        public void ThenTheResponseBodyShouldMatch(string expectedResponseBody)
+    [Given(@"I have an HTTP ""([^""]*)"" ""([^""]*)"" request")]
+    private void GivenIHaveAnHttpRequest(string httpMethod, string url)
+    {
+        requestBuilder.SetMethod(new HttpMethod(httpMethod));
+        var uri = new Uri(uriPlaceholderReplacer.Replace(url, context), UriKind.Relative);
+        requestBuilder.SetRelativeUrl(uri);
+    }
+
+    [Then(@"the response status code should be (.*)")]
+    public async Task ThenTheResponseStatusCodeShouldBe(int statusCode)
+    {
+        response.Should().NotBeNull();
+        response.HttpStatusCode.Should().Be((HttpStatusCode)statusCode, response.ResponseBody);
+    }
+
+    [Given(@"I set API version to ""([^""]*)""")]
+    public void GivenISetAPIVersionTo(string version)
+    {
+        requestBuilder.SetUriApiVersion(version);
+    }
+
+    [Given(@"I set sub Uri to ""([^""]*)""")]
+    public void GivenISetSubUriTo(string suburi)
+    {
+        requestBuilder.SetSubUri(uriPlaceholderReplacer.Replace(suburi, context));
+    }
+
+    [Then(@"the response headers should contain name")]
+    public void ThenTheResponseHeadersReturnedShouldContainName(Table table)
+    {
+        AssertHeaders(table, (responseHeaders, expectedHeader) => responseHeaders.Should().Contain(expectedHeader));
+    }
+
+    [Then(@"the response headers should not contain")]
+    public void WhenTheResponseHeadersReturnedShouldNotContain(Table table)
+    {
+        AssertHeaders(table, (responseHeaders, expectedHeader) => responseHeaders.Should().NotContain(expectedHeader));
+    }
+
+    [Then(@"the response header ""([^""]*)"" should be ""([^""]*)""")]
+    public void ThenTheHeaderShouldBe(string name, string value)
+    {
+        response.Should().NotBeNull();
+        response.Headers.Should().Contain(h => h.Key == name && h.Value.Contains(value));
+    }
+
+    [Then(@"the response headers should contain name and value")]
+    public void ThenHeadersShouldContainNameAndValue(Table table)
+    {
+        var expectedHeaders = table.Rows.Select(r => new Header(r["Header"], r["Value"])).ToList();
+        var actualHeaders = response.Headers.Select(r => new Header(r.Key, string.Join("; ", r.Value)));
+        using (new AssertionScope())
         {
-            var expectedRegexedResponseBody = expectedResponseBody;
-            var responseIsJson = expectedResponseBody.TrimStart().StartsWith('{');
-            if (responseIsJson)
+            foreach (var expectedHeades in expectedHeaders)
             {
-                var formatedJson = expectedResponseBody.FormatJsonWithPlaceholders();
-                expectedRegexedResponseBody = responsePlaceholderReplacer.Replace(formatedJson, context);
-                response.Should().NotBeNull();
-            }
-            response.ResponseBody
-                .FormatAsJToken()
-                .ShouldMatchRegexLineByLine(expectedRegexedResponseBody);
-        }
-
-
-        [Then(@"the response body should match exact formatting '([^']*)'")]
-        [Then(@"the response body should match exact formatting")]
-        public void ThenTheResponseBodyShouldMatchExactFormatting(string expectedResponseBody)
-        {
-            response.Should().NotBeNull();
-            var expectedRegexedResponseBody = responsePlaceholderReplacer.Replace(expectedResponseBody, context);
-            response.ResponseBody
-                .FormatAsJToken()
-                .ShouldMatchRegexLineByLine(expectedRegexedResponseBody);
-        }
-
-        [Given(@"I have an HTTP ""([^""]*)"" ""([^""]*)"" request")]
-        private void GivenIHaveAnHttpRequest(string httpMethod, string url)
-        {
-            requestBuilder.SetMethod(new HttpMethod(httpMethod));
-            var uri = new Uri(uriPlaceholderReplacer.Replace(url, context), UriKind.Relative);
-            requestBuilder.SetRelativeUrl(uri);
-        }
-
-        [Then(@"the response status code should be (.*)")]
-        public async Task ThenTheResponseStatusCodeShouldBe(int statusCode)
-        {
-            response.Should().NotBeNull();
-            response.HttpStatusCode.Should().Be((HttpStatusCode)statusCode, response.ResponseBody);
-        }
-
-        [Given(@"I set API version to ""([^""]*)""")]
-        public void GivenISetAPIVersionTo(string version)
-        {
-            requestBuilder.SetUriApiVersion(version);
-        }
-
-        [Given(@"I set sub Uri to ""([^""]*)""")]
-        public void GivenISetSubUriTo(string suburi)
-        {
-            requestBuilder.SetSubUri(uriPlaceholderReplacer.Replace(suburi, context));
-        }
-
-        [Then(@"the response headers should contain name")]
-        public void ThenTheResponseHeadersReturnedShouldContainName(Table table)
-        {
-            AssertHeaders(table, (responseHeaders, expectedHeader) => responseHeaders.Should().Contain(expectedHeader));
-        }
-
-        [Then(@"the response headers should not contain")]
-        public void WhenTheResponseHeadersReturnedShouldNotContain(Table table)
-        {
-            AssertHeaders(table, (responseHeaders, expectedHeader) => responseHeaders.Should().NotContain(expectedHeader));
-        }
-
-        [Then(@"the response header ""([^""]*)"" should be ""([^""]*)""")]
-        public void ThenTheHeaderShouldBe(string name, string value)
-        {
-            response.Should().NotBeNull();
-            response.Headers.Should().Contain(h => h.Key == name && h.Value.Contains(value));
-        }
-
-        [Then(@"the response headers should contain name and value")]
-        public void ThenHeadersShouldContainNameAndValue(Table table)
-        {
-            var expectedHeaders = table.Rows.Select(r => new Header(r["Header"], r["Value"])).ToList();
-            var actualHeaders = response.Headers.Select(r => new Header(r.Key, string.Join("; ", r.Value)));
-            using (new AssertionScope())
-            {
-                foreach (var expectedHeades in expectedHeaders)
-                {
-                    actualHeaders.Should().Contain(expectedHeades);
-                }
+                actualHeaders.Should().Contain(expectedHeades);
             }
         }
+    }
 
-        [Given(@"I add a request header ""([^""]*)""")]
-        public void GivenIAddARequestHeader(string header)
-        {
-            requestBuilder.AddHeader(header, new StringValues("Can-be-anything"));
-        }
+    [Given(@"I add a request header ""([^""]*)""")]
+    public void GivenIAddARequestHeader(string header)
+    {
+        requestBuilder.AddHeader(header, new StringValues("Can-be-anything"));
+    }
 
-        [Given(@"I add a request header ""([^""]*)"" with value ""([^""]*)""")]
-        public void WhenIAddHeaderWithValue(string name, string value)
-        {
-            requestBuilder.AddHeader(name, value);
-        }
+    [Given(@"I add a request header ""([^""]*)"" with value ""([^""]*)""")]
+    public void WhenIAddHeaderWithValue(string name, string value)
+    {
+        requestBuilder.AddHeader(name, value);
+    }
 
-        [Given(@"I add a query parameter ""([^""]*)"" with value ""([^""]*)""")]
-        public void GivenIAddQueryParameter(string parameterName, string value)
-        {
-            requestBuilder.AddQueryParameter(parameterName, value);
-        }
+    [Given(@"I add a query parameter ""([^""]*)"" with value ""([^""]*)""")]
+    public void GivenIAddQueryParameter(string parameterName, string value)
+    {
+        requestBuilder.AddQueryParameter(parameterName, value);
+    }
 
-        [Given(@"the header removed is ""([^""]*)""")]
-        [Given(@"I remove header ""([^""]*)""")]
-        public void GivenTheHeaderRemovedIs(string header)
-        {
-            requestBuilder.RemoveHeader(header);
-        }
+    [Given(@"the header removed is ""([^""]*)""")]
+    [Given(@"I remove header ""([^""]*)""")]
+    public void GivenTheHeaderRemovedIs(string header)
+    {
+        requestBuilder.RemoveHeader(header);
+    }
 
 
-        [Then(@"service ""([^""]*)"" should be called with HTTP ""([^""]*)"" ""([^""]*)""")]
-        public void ThenServiceShouldBeCalledWith(string service, string method, string url)
-        {
+    [Then(@"service ""([^""]*)"" should be called with HTTP ""([^""]*)"" ""([^""]*)""")]
+    public void ThenServiceShouldBeCalledWith(string service, string method, string url)
+    {
            
-        }
+    }
 
-        [Then(@"service ""([^""]*)"" should be called with HTTP ""([^""]*)"" ""([^""]*)"" and body")]
-        public void ThenServiceShouldBeCalledWithBody(string service, string method, string url, string body)
-        {
+    [Then(@"service ""([^""]*)"" should be called with HTTP ""([^""]*)"" ""([^""]*)"" and body")]
+    public void ThenServiceShouldBeCalledWithBody(string service, string method, string url, string body)
+    {
 
-        }
+    }
 
-        private static IEnumerable<string> GetValuesOfColumn(Table table, string column)
+    private static IEnumerable<string> GetValuesOfColumn(Table table, string column)
+    {
+        return table.Rows.Select(r => r[column]);
+    }
+    private void AssertHeaders(Table table, Action<IEnumerable<string>, string> assertion)
+    {
+        var expectedHeaders = GetValuesOfColumn(table, "Name"); using (new AssertionScope())
         {
-            return table.Rows.Select(r => r[column]);
-        }
-        private void AssertHeaders(Table table, Action<IEnumerable<string>, string> assertion)
-        {
-            var expectedHeaders = GetValuesOfColumn(table, "Name"); using (new AssertionScope())
+            var responseHeaders = response.Headers.Select(h => h.Key);
+            foreach (var expectedHeader in expectedHeaders)
             {
-                var responseHeaders = response.Headers.Select(h => h.Key);
-                foreach (var expectedHeader in expectedHeaders)
-                {
-                    assertion(responseHeaders, expectedHeader);
-                }
+                assertion(responseHeaders, expectedHeader);
             }
-        }   
+        }
+    }   
 
-        struct Header
+    struct Header
+    {
+        public readonly string Name;
+        public readonly string Value;
+        public Header(string name, string value)
         {
-            public readonly string Name;
-            public readonly string Value;
-            public Header(string name, string value)
-            {
-                Name = name;
-                Value = value;
-            }
+            Name = name;
+            Value = value;
         }
     }
 }

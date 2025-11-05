@@ -1,9 +1,8 @@
 ﻿using Reqnroll;
 
-namespace FeatureTestsFramework.Placeholders.Evaluators
+namespace FeatureTestsFramework.Placeholders.Evaluators;
+
+public interface IPlaceholderEvaluator
 {
-    public interface IPlaceholderEvaluator
-    {
-        string Evaluate(string key, IScenarioContext context);
-    }
+    string Evaluate(string key, IScenarioContext context);
 }

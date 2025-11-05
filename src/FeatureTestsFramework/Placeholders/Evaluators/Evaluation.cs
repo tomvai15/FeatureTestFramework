@@ -1,10 +1,9 @@
 ﻿using Reqnroll;
 
-namespace FeatureTestsFramework.Placeholders.Evaluators
+namespace FeatureTestsFramework.Placeholders.Evaluators;
+
+public class Evaluation
 {
-    public class Evaluation
-    {
-        public Func<string, IScenarioContext, string> Evaluate { get; set; }
-        public string FailureReason { get; set; }
-    }
+    public Func<string, IScenarioContext, string> Evaluate { get; set; }
+    public string FailureReason { get; set; }
 }

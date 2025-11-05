@@ -3,18 +3,17 @@ using FeatureTestsFramework;
 using FeatureTestsFramework.Bootstrapping;
 using Reqnroll;
 
-namespace FeatureTestFramework.Tests
+namespace FeatureTestFramework.Tests;
+
+[Binding]
+public class TestStartup
 {
-    [Binding]
-    public class TestStartup
+    [BeforeTestRun(Order = TestRunOrder.InjectServices)]
+    public static void RegisterServices()
     {
-        [BeforeTestRun(Order = TestRunOrder.InjectServices)]
-        public static void RegisterServices()
-        {
-            ConfigurationAccessor.AddUserSecrets<TestStartup>();
-            var services = ServiceAccessor.ServiceCollection;
-            services.AddCommonServices(ConfigurationAccessor.Configuration);
-            services.ConfigureServices(ConfigurationAccessor.Configuration);
-        }
+        ConfigurationAccessor.AddUserSecrets<TestStartup>();
+        var services = ServiceAccessor.ServiceCollection;
+        services.AddCommonServices(ConfigurationAccessor.Configuration);
+        services.ConfigureServices(ConfigurationAccessor.Configuration);
     }
 }

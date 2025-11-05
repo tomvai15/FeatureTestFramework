@@ -1,7 +1,6 @@
-﻿namespace Example.Api.Clients
+﻿namespace Example.Api.Clients;
+
+public class GetPostmanResponse
 {
-    public class GetPostmanResponse
-    {
-        public string Url { get; set; }
-    }
+    public string Url { get; set; }
 }

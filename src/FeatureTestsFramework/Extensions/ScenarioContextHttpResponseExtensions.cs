@@ -2,11 +2,10 @@
 using FeatureTestsFramework.Steps;
 using Reqnroll;
 
-namespace FeatureTestsFramework.Extensions
+namespace FeatureTestsFramework.Extensions;
+
+public static class ScenarioContextHttpResponseExtensions
 {
-    public static class ScenarioContextHttpResponseExtensions
-    {
-        public static FeatureTestResponse GetHttpResponse(this ScenarioContext context)
-            => context.Get<FeatureTestResponse>(HttpRequestSteps.ResponseKey);
-    }
+    public static FeatureTestResponse GetHttpResponse(this ScenarioContext context)
+        => context.Get<FeatureTestResponse>(HttpRequestSteps.ResponseKey);
 }

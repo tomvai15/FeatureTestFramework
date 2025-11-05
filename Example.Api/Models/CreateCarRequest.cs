@@ -1,7 +1,6 @@
-﻿namespace Example.Api.Models
+﻿namespace Example.Api.Models;
+
+public class CreateCarRequest
 {
-    public class CreateCarRequest
-    {
-        public Car Car { get; set; }
-    }
+    public Car Car { get; set; }
 }

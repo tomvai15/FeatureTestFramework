@@ -5,56 +5,55 @@ using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
 
-namespace FeatureTestsFramework.SOA.Tests.Steps
+namespace FeatureTestsFramework.SOA.Tests.Steps;
+
+[Binding]
+public class ExternalApiSteps
 {
-    [Binding]
-    public class ExternalApiSteps
+    private const string ExternalApiUrl = "/postman/get";
+    private readonly ScenarioContext _context;
+    private readonly WireMockServer _wireMockServer;
+
+    private readonly IRequestBuilder _externalApiEndpoint;
+
+    public ExternalApiSteps(ScenarioContext context)
     {
-        private const string ExternalApiUrl = "/postman/get";
-        private readonly ScenarioContext _context;
-        private readonly WireMockServer _wireMockServer;
+        _context = context;
+        _wireMockServer = _context.GetRequiredService<WireMockServer>();
 
-        private readonly IRequestBuilder _externalApiEndpoint;
+        _externalApiEndpoint = Request.Create()
+            .WithPath(ExternalApiUrl)
+            .UsingGet();
+    }
 
-        public ExternalApiSteps(ScenarioContext context)
-        {
-            _context = context;
-            _wireMockServer = _context.GetRequiredService<WireMockServer>();
+    [Given(@"external api returns response body")]
+    public void ThenExternalApiShouldBeCalled(string response)
+    {
+        SetEndpointResponse(response);
 
-            _externalApiEndpoint = Request.Create()
-                .WithPath(ExternalApiUrl)
-                .UsingGet();
-        }
+        //while (true)
+        //{
+        //    Thread.Sleep(1000);
+        //}
 
-        [Given(@"external api returns response body")]
-        public void ThenExternalApiShouldBeCalled(string response)
-        {
-            SetEndpointResponse(response);
+        return;
+    }
 
-            //while (true)
-            //{
-            //    Thread.Sleep(1000);
-            //}
+    [Then(@"external api should be called")]
+    public void ThenExternalApiShouldBeCalled()
+    {
+        var calls = _wireMockServer.FindLogEntries(_externalApiEndpoint).ToList();
+        calls.Count.Should().NotBe(0);
+    }
 
-            return;
-        }
-
-        [Then(@"external api should be called")]
-        public void ThenExternalApiShouldBeCalled()
-        {
-            var calls = _wireMockServer.FindLogEntries(_externalApiEndpoint).ToList();
-            calls.Count.Should().NotBe(0);
-        }
-
-        private void SetEndpointResponse(string response)
-        {
-            _wireMockServer
-                .Given(_externalApiEndpoint)
-                .RespondWith(
-                    Response.Create()
+    private void SetEndpointResponse(string response)
+    {
+        _wireMockServer
+            .Given(_externalApiEndpoint)
+            .RespondWith(
+                Response.Create()
                     .WithStatusCode(200)
                     .WithBody(response)
-                    );
-        }
+            );
     }
 }

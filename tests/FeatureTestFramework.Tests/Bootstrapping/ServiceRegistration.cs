@@ -2,21 +2,20 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FeatureTestFramework.Tests.Bootstrapping
+namespace FeatureTestFramework.Tests.Bootstrapping;
+
+public static class ServiceRegistration
 {
-    public static class ServiceRegistration
+    public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
+        services.AddSingleton(configuration);
+        services.AddCommonServices(configuration);
+
+        if (configuration.IsUsingMockService())
         {
-            services.AddSingleton(configuration);
-            services.AddCommonServices(configuration);
-
-            if (configuration.IsUsingMockService())
-            {
-                services.AddWebApplicationFactory(configuration);
-            }
-
-            return services;
+            services.AddWebApplicationFactory(configuration);
         }
+
+        return services;
     }
 }
