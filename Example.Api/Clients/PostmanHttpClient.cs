@@ -9,7 +9,7 @@ public class PostmanHttpClient(HttpClient _httpClient) : IPostmanHttpClient
 {
     public async Task<GetPostmanResponse> Get()
     {
-        var response = await _httpClient.GetAsync("/get");
+        var response = await _httpClient.GetAsync("get");
         response.EnsureSuccessStatusCode();
 
         return (await response.Content.ReadFromJsonAsync<GetPostmanResponse>())!;

@@ -3,6 +3,7 @@ using FeatureTestsFramework.Placeholders;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using WireMock.Server;
 
 namespace FeatureTestsFramework.Bootstrapping;
 
@@ -26,6 +27,8 @@ public static class ServiceRegistrationCommon
 
         services.AddScoped<IRequestStore, RequestStore>();
         services.AddScoped<IFeatureTestRequestBuilder, FeatureTestRequestBuilder>();
+        
+        services.AddSingleton(_ => WireMockServer.Start(5999));
 
         return services;
     }

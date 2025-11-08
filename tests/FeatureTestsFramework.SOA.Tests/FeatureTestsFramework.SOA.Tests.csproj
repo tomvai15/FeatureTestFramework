@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="WireMock.Net" Version="1.5.51"/>
+        <PackageReference Include="WireMock.Net" Version="1.15.0"/>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.3"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0"/>
         <PackageReference Include="Reqnroll.xUnit" Version="3.2.0"/>

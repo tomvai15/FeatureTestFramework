@@ -11,6 +11,7 @@ public class ExternalApiController(IPostmanHttpClient _postmanHttpClient) : Cont
     public async Task<IActionResult> Get()
     {
         var response = await _postmanHttpClient.Get();
+        
         return Ok(response);
     }
 }

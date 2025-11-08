@@ -1,6 +1,7 @@
 ﻿using FeatureTestsFramework.Bootstrapping;
 using Microsoft.Extensions.DependencyInjection;
 using Reqnroll;
+using WireMock.Server;
 
 namespace FeatureTestsFramework;
 
@@ -12,6 +13,8 @@ public class Hooks
     {
         var scenarioServiceScope = ServiceAccessor.ServiceProvider.CreateScope();
         scenarioContext.Set(scenarioServiceScope);
+        var wireMockServer = scenarioServiceScope.ServiceProvider.GetRequiredService<WireMockServer>();
+        wireMockServer.Reset();
     }
 
     [AfterScenario(Order = TestRunOrder.DisposeServiceScope)]

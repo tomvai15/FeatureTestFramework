@@ -1,6 +1,5 @@
 using Example.Api.Clients;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -21,15 +20,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("FakeTokenSuperSecretFakeTokenSuperSecret")),
+            IssuerSigningKey =
+                new SymmetricSecurityKey(Encoding.ASCII.GetBytes("FakeTokenSuperSecretFakeTokenSuperSecret")),
             ValidateIssuer = false,
             ValidateAudience = false
         };
     });
 builder.Services.AddAuthorization();
-
-var uri = builder.Configuration.GetSection(PostmanSettings.SectionName).Value;
-builder.Services.AddHttpClient<IPostmanHttpClient, PostmanHttpClient>(options => options.BaseAddress = new Uri(uri));
+builder.Services.AddHttpClient<IPostmanHttpClient, PostmanHttpClient>((sp, options) =>
+    options.BaseAddress = new Uri(sp.GetRequiredService<IConfiguration>().GetSection(PostmanSettings.SectionName).Value));
 
 var app = builder.Build();
 
@@ -49,4 +48,6 @@ app.MapControllers();
 
 app.Run();
 
-public partial class Program { }
+public partial class Program
+{
+}
