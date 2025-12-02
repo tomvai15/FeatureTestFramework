@@ -1,6 +1,6 @@
 Feature: Įtraukti papildomos informacijos
 
-  Scenario: Scenario 1
+  Scenario:  1Scenario
     Given I have an HTTP "POST" "PostUserInformation" request
     When I send the request
     Then the response status code should be 200

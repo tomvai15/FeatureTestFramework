@@ -30,6 +30,13 @@ builder.Services.AddAuthorization();
 builder.Services.AddHttpClient<IPostmanHttpClient, PostmanHttpClient>((sp, options) =>
     options.BaseAddress = new Uri(sp.GetRequiredService<IConfiguration>().GetSection(PostmanSettings.SectionName).Value));
 
+
+builder.Services.AddHttpClient<IFeatureFlagHttpClient, FeatureFlagHttpClient>((sp, options) =>
+    options.BaseAddress = new Uri(sp.GetRequiredService<IConfiguration>().GetSection("FeatureFlagSettings").Value));
+
+builder.Services.AddHttpClient<ILicenseBackendHttpClient, LicenseBackendHttpClient>((sp, options) =>
+    options.BaseAddress = new Uri(sp.GetRequiredService<IConfiguration>().GetSection("LicenseBackendSettings").Value));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

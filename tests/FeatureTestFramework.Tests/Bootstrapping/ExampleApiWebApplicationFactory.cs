@@ -8,7 +8,9 @@ public class ExampleApiWebApplicationFactory : WebApplicationFactory<Program>
 {
     private readonly Dictionary<string, string> configuration = new Dictionary<string, string>
     {
-        { "PostmanSettings", "http://localhost:5999/Postman/" }
+        { "PostmanSettings", "http://localhost:5999/Postman/" },
+        { "FeatureFlagSettings", "http://localhost:5999/FeatureFlagService/" },
+        { "LicenseBackendSettings", "http://localhost:5999/LicenseBackendService/" },
     };
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
