@@ -1,6 +1,7 @@
 using FeatureTestsFramework.Extensions;
 using Reqnroll;
 using WireMock.FluentAssertions;
+using WireMock.Matchers;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
@@ -40,7 +41,7 @@ public class ExternalApiSteps
         _wireMockServer.Given(request).RespondWith(response);
     }
 
-    [Then("service {string} was called with {string} {string}")]
+    [Then("service {string} should be called with {string} {string}")]
     public void ThenServiceShouldBeCalled(string service, string method, string url)
     {
         var trimmedUrl = url.TrimEnd('/').TrimStart('/');
@@ -51,5 +52,13 @@ public class ExternalApiSteps
             .UsingMethod(method)
             .And
             .AtAbsolutePath(fullPath);
+    }
+    
+    [Then("service {string} should be called")]
+    public void ThenServiceShouldBeCalled(string service)
+    {
+        _wireMockServer.Should()
+            .HaveReceivedACall()
+            .AtAbsolutePath(new WildcardMatcher("*service*"));
     }
 }

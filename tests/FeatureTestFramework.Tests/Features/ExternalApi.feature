@@ -16,5 +16,5 @@ Scenario: I set sub Uri. Appends sub uri and adjusts slashes.
 		"url": "Same url"
 	}
 	"""
-	And service "Postman" was called with "GET" "/get"
+	And service "Postman" should be called with "GET" "/get"
 	
