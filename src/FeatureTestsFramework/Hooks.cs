@@ -1,4 +1,5 @@
-﻿using FeatureTestsFramework.Bootstrapping;
+﻿using System.Text.Json;
+using FeatureTestsFramework.Bootstrapping;
 using Microsoft.Extensions.DependencyInjection;
 using Reqnroll;
 using WireMock.Server;
@@ -22,5 +23,35 @@ public class Hooks
     {
         var scenarioServiceScope = scenarioContext.Get<IServiceScope>();
         scenarioServiceScope.Dispose();
+    }
+    
+    [AfterTestRun]
+    public static void AfterTestRun()
+    {
+        var wireMockServer = ServiceAccessor.ServiceProvider.GetRequiredService<WireMockServer>();
+        var mappedLogs = wireMockServer.LogEntries
+            .Select(entry => new
+            {
+                // --- request ---
+                Request = new
+                {
+                    Method = entry.RequestMessage.Method,
+                    Url = entry.RequestMessage.Url,
+                    Path = entry.RequestMessage.Path,
+                    Body = entry.RequestMessage.Body
+                },
+                Response = new
+                {
+                    StatusCode = entry.ResponseMessage?.StatusCode,
+                }
+            })
+            .ToList();
+        
+        var json = JsonSerializer.Serialize(
+            mappedLogs,
+            new JsonSerializerOptions { WriteIndented = true }
+        );
+
+        File.WriteAllText("wiremock-logs.json", json);
     }
 }
