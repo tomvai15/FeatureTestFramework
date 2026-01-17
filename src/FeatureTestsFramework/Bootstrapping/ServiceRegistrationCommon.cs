@@ -9,12 +9,23 @@ namespace FeatureTestsFramework.Bootstrapping;
 
 public static class ServiceRegistrationCommon
 {
-    public static IServiceCollection AddCommonServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddCommonServices<TProgram>(this IServiceCollection services, IConfiguration configuration)
+    where TProgram : class
     {
         services.AddSingleton(configuration);
         services.AddCommonPlaceholders(configuration);
         services.AddCommonHttpClient(configuration);
 
+        services.AddWebApplicationFactory<TProgram>(ConfigurationAccessor.Configuration);
+        return services;
+    }
+    
+    
+    public static IServiceCollection AddCommonServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddSingleton(configuration);
+        services.AddCommonPlaceholders(configuration);
+        services.AddCommonHttpClient(configuration);
         return services;
     }
 
