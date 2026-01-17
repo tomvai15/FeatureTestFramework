@@ -4,15 +4,16 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<PackageId>FeatureTestFramework.HttpSteps</PackageId>
-	<Version>1.0.1</Version>
+	<PackageId>Tomvai.CommonHttpSteps</PackageId>
+	<PackageVersion>0.1.0-beta</PackageVersion>
 	<Product>CommonHttpSteps</Product>
 	<IsPackable>True</IsPackable>
 	<Authors>Tomas Vainoris</Authors>
-	<Description>A feature test framework for testing features.</Description>
-	<PackageTags>feature test framework testing</PackageTags>
+	<Description>Common http steps for Reqnroll</Description>
+	<PackageTags>feature test BDD testing</PackageTags>
 	<PackageReleaseNotes>Method name fixes.</PackageReleaseNotes>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,7 +32,7 @@
 	<PackageReference Include="Reqnroll.xUnit" Version="3.3.2" />
 	<PackageReference Include="WireMock.Net" Version="1.23.0" />
 	<PackageReference Include="WireMock.Net.FluentAssertions" Version="1.23.0" />
-	  
+	<None Include="README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
