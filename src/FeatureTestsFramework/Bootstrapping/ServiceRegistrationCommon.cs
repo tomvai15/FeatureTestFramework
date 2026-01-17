@@ -11,6 +11,7 @@ public static class ServiceRegistrationCommon
 {
     public static IServiceCollection AddCommonServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddSingleton(configuration);
         services.AddCommonPlaceholders(configuration);
         services.AddCommonHttpClient(configuration);
 

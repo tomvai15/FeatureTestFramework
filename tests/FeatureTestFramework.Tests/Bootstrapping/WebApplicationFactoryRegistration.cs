@@ -19,7 +19,7 @@ public static class WebApplicationFactoryRegistration
         return services;
     }
 
-    public static IServiceCollection AddWebApplicationFactoryHttpClient(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddWebApplicationFactoryHttpClient(this IServiceCollection services, IConfiguration configuration)
     {
         var configurationSection = configuration.GetSection(FeatureTestClientConfiguration.SectionName);
         services.Configure<FeatureTestClientConfiguration>(configurationSection);

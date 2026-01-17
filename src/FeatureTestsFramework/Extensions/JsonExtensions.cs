@@ -1,10 +1,27 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Text.Json;
+using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
 
 namespace FeatureTestsFramework.Extensions;
 
 public static class JsonExtensions
 {
+    public static bool IsValidJson(this string input)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+            return false;
+
+        try
+        {
+            JsonDocument.Parse(input);
+            return true;
+        }
+        catch (JsonException)
+        {
+            return false;
+        }
+    }
+    
     public static string FormatJsonWithPlaceholders(this string json)
     {
         var matches = Regex.Matches(json, "(?<!\\\"[^\":]*){{.[^{}]*}}(?![^\",]*\\\")");

@@ -13,9 +13,9 @@ public class LicenseBackendHttpClient(HttpClient httpClient) : ILicenseBackendHt
 {
     public async Task PostNewLicense(CreateLicenseRequest request)
     {
-        var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+        var content = new StringContent(JsonSerializer.Serialize(request, options: JsonSerializerOptions.Web),
+            Encoding.UTF8, "application/json");
         var response = await httpClient.PostAsync("PostNewLicense", content);
-        //response.EnsureSuccessStatusCode();
-        return;
+        response.EnsureSuccessStatusCode();
     }
 }

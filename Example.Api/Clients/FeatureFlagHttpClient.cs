@@ -13,8 +13,9 @@ public class FeatureFlagHttpClient(HttpClient httpClient) : IFeatureFlagHttpClie
 {
     public async Task<GetFeatureFlagResponse> PostFeatureFlags(GetFeatureFlagRequest request)
     {
-        var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
-        
+        var content = new StringContent(JsonSerializer.Serialize(request, options: JsonSerializerOptions.Web),
+            Encoding.UTF8, "application/json");
+
         var response = await httpClient.PostAsync("PostFeatureFlags", content);
         response.EnsureSuccessStatusCode();
 

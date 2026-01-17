@@ -1,4 +1,6 @@
+using FeatureTestsFramework.Assertions;
 using FeatureTestsFramework.Extensions;
+using FluentAssertions;
 using Reqnroll;
 using WireMock.FluentAssertions;
 using WireMock.Matchers;
@@ -20,7 +22,7 @@ public class ExternalApiSteps
         this.context = scenarioContext;
         _wireMockServer = context.GetService<WireMockServer>();
     }
-    
+
     [Given(@"service {string} api for {string} {string} returns")]
     public void ThenExternalApiForGetpostputdeletepatchheadoptionsStringReturns(string service, string method,
         string url,
@@ -28,7 +30,7 @@ public class ExternalApiSteps
     {
         var trimmedUrl = url.TrimEnd('/').TrimStart('/');
         var fullPath = $"/{service}/{trimmedUrl}";
-        
+
         var request = Request.Create()
             .WithPath(fullPath)
             .UsingMethod(method);
@@ -47,14 +49,25 @@ public class ExternalApiSteps
     {
         var trimmedUrl = url.TrimEnd('/').TrimStart('/');
         var fullPath = $"/{service}/{trimmedUrl}";
-        
-        _wireMockServer.Should()
-            .HaveReceivedACall()
-            .UsingMethod(method)
-            .And
-            .AtAbsolutePath(fullPath);
+
+        body.IsValidJson().Should().BeTrue("Body should be valid JSON");
+
+        try
+        {
+            _wireMockServer.Should()
+                .HaveReceivedACall()
+                .UsingMethod(method)
+                .And
+                .AtAbsolutePath(fullPath)
+                .And
+                .WithBody(new PartialJsonMatcher(body));
+        }
+        catch (Exception e)
+        {
+            throw;
+        }
     }
-    
+
     [Then("service {string} should be called")]
     public void ThenServiceShouldBeCalled(string service)
     {

@@ -43,6 +43,7 @@ public class Hooks
                 Response = new
                 {
                     StatusCode = entry.ResponseMessage?.StatusCode,
+                    Body = entry.ResponseMessage?.BodyData?.BodyAsString
                 }
             })
             .ToList();

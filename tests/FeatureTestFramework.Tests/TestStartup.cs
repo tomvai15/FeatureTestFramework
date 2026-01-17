@@ -2,7 +2,7 @@
 using FeatureTestsFramework;
 using FeatureTestsFramework.Bootstrapping;
 using Reqnroll;
-
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
 namespace FeatureTestFramework.Tests;
 
 [Binding]
@@ -11,9 +11,8 @@ public class TestStartup
     [BeforeTestRun(Order = TestRunOrder.InjectServices)]
     public static void RegisterServices()
     {
-        ConfigurationAccessor.AddUserSecrets<TestStartup>();
         var services = ServiceAccessor.ServiceCollection;
         services.AddCommonServices(ConfigurationAccessor.Configuration);
-        services.ConfigureServices(ConfigurationAccessor.Configuration);
+        services.AddWebApplicationFactory(ConfigurationAccessor.Configuration);
     }
 }
