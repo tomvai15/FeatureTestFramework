@@ -17,10 +17,8 @@ public class LicensesController(
         {
             FeatureFlag = "create_licenses_enabled"
         });
-        
-        bool.TryParse(featureFlags.IsEnabled, out var enabled);
 
-        if (!enabled)
+        if (!featureFlags.IsEnabled)
         {
             return NotFound();
         }
