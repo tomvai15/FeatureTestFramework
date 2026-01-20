@@ -10,7 +10,7 @@ public class LicensesController(
     IFeatureFlagHttpClient featureFlagHttpClient,
     ILicenseBackendHttpClient licenseBackendHttpClient) : ControllerBase
 {
-    [HttpPost("PostLicense")]
+    [HttpPost("License")]
     public async Task<IActionResult> PostLicense([FromBody] CreateLicenseRequest request)
     {
         var featureFlags = await featureFlagHttpClient.PostFeatureFlags(new GetFeatureFlagRequest

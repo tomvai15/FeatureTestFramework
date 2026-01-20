@@ -16,7 +16,7 @@ public class FeatureFlagHttpClient(HttpClient httpClient) : IFeatureFlagHttpClie
         var content = new StringContent(JsonSerializer.Serialize(request, options: JsonSerializerOptions.Web),
             Encoding.UTF8, "application/json");
 
-        var response = await httpClient.PostAsync("PostFeatureFlags", content);
+        var response = await httpClient.PostAsync("FeatureFlags", content);
         response.EnsureSuccessStatusCode();
 
         return (await response.Content.ReadFromJsonAsync<GetFeatureFlagResponse>())!;
