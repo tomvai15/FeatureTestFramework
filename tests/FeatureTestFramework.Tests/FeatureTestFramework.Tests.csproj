@@ -16,6 +16,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageReference Include="Reqnroll.xUnit" Version="3.3.2" />
+    <PackageReference Include="Tomvai.CommonHttpSteps" Version="0.1.1-beta" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="coverlet.collector" Version="6.0.4">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -29,7 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Example.Api\Example.Api.csproj" />
-    <ProjectReference Include="..\..\src\FeatureTestsFramework\FeatureTestsFramework.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +56,10 @@
 	<ItemGroup>
 	  <UpToDateCheckBuild Remove="SequenceDiagramFeatures\CreateLicense.feature.cs" />
 	  <UpToDateCheckBuild Remove="SequenceDiagramFeatures\SampleTest.feature.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Features\" />
 	</ItemGroup>
 
 </Project>

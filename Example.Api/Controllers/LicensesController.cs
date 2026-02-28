@@ -18,7 +18,8 @@ public class LicensesController(
             FeatureFlag = "create_licenses_enabled"
         });
 
-        if (!featureFlags.IsEnabled)
+        var isEnabled = featureFlags.IsEnabled;
+        if (!isEnabled)
         {
             return NotFound();
         }
