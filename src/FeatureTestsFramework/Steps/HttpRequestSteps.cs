@@ -85,8 +85,8 @@ public class HttpRequestSteps
             .ShouldMatchRegexLineByLine(expectedRegexedResponseBody);
     }
 
-    [Given(@"I have an HTTP ""([^""]*)"" ""([^""]*)"" request")]
-    private void GivenIHaveAnHttpRequest(string httpMethod, string url)
+    [Given("I have an HTTP {string} {string} request")]
+    public void GivenIHaveAnHttpRequest(string httpMethod, string url)
     {
         requestBuilder.SetMethod(new HttpMethod(httpMethod));
         var uri = new Uri(uriPlaceholderReplacer.Replace(url, context), UriKind.Relative);
