@@ -63,7 +63,7 @@ public class ExternalApiSteps
 
         _wireMockServer.Given(request).RespondWith(response);
     }
-    
+
     [Given(@"service {string} returns {int} for {string} {string}")]
     public void GivenServiceStringReturnsIntForStringString(string service, int statusCode, string method,
         string url)
@@ -81,9 +81,24 @@ public class ExternalApiSteps
 
         _wireMockServer.Given(request).RespondWith(response);
     }
-    
+
     [Then("service {string} was called with {string} {string}")]
     [Then("service {string} should be called with {string} {string}")]
+    public void ThenServiceShouldBeCalled(string service, string method, string url)
+    {
+        var trimmedUrl = url.TrimEnd('/').TrimStart('/');
+        var fullPath = $"/{service}/{trimmedUrl}";
+
+
+        _wireMockServer.Should()
+            .HaveReceivedACall()
+            .UsingMethod(method)
+            .And
+            .AtAbsolutePath(fullPath);
+    }
+
+    [Then("service {string} was called with {string} {string} and body")]
+    [Then("service {string} should be called with {string} {string} and body")]
     public void ThenServiceShouldBeCalled(string service, string method, string url, string body)
     {
         var trimmedUrl = url.TrimEnd('/').TrimStart('/');
